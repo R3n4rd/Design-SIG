@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Exercice webpage</title>
+	<style>
+		body {background-color: white;}
+		h1   {color: blue; position:relative; text-align:center;}
+		p    {color: red;}
+		.logo {position:relative; float:left;}
+		.image {position:relative; float:right;}
+		header {background-color: brown;}
+		section {position:relative; float:left; background-color: grey;}
+		aside {position:relative; float:right; background-color: yellow;}
+		footer {background-color: magenta; height:17px; margin-top:20px;}
+		.button, .button2 {position: relative; float: right; border: none; text-align: center; cursor: pointer;}
+		.button:hover, .button2:hover{color: white;}
+		.button2 {display:none;}
+		#map {height: 300px; width:100%}
+	</style>
+</head>
+<body>
+
+	<header>
+		<img url="" class="logo" alt="logo"></img>
+		<img url="" class="image" alt="image"></img>
+		<h1>Affichage de Google Maps</h1>
+	</header>
+
+	<section id="map">
+		<script>
+		function myMap() {
+		var mapOptions = {
+			center: new google.maps.LatLng(51.5, -0.12),
+			zoom: 10,
+			mapTypeId: google.maps.MapTypeId.HYBRID
+		}
+		var map = new google.maps.Map(document.getElementById("map"), mapOptions);
+		}
+		</script>
+
+		<script src=""></script>
+		<p>ma map à rajouter 2 couche, 1 polygon et des lignes par exemple admisnitratif et routes !!!</p>
+		
+		<aside id="cache">
+			<ul>
+				<li><a href="https://epfl.ch">EPFL</a></li>
+				<li><a href="https://google.ch">Google</a></li>
+				<li><a href="https://amazon.com">Amazon</a></li>
+			</ul>
+		</aside>
+
+	</section>
+	
+	<div style="clear: both"></div>
+
+	<footer>
+		<button id="button" class="button" onclick="display(this)">Cacher les liens </button>
+		<button id="button2" class="button2" onclick="undisplay(this)">Afficher les liens</button>
+	</footer>
+	
+	<script>
+	function display() {
+			document.getElementById("cache").style.display = "none";
+			document.getElementById("button").style.display = "none";
+			document.getElementById("button2").style.display = "block";
+		}
+	function undisplay() {
+			document.getElementById("cache").style.display = "block";
+			document.getElementById("button").style.display = "block";
+			document.getElementById("button2").style.display = "none";
+		}
+	</script>
+
+</body>
+</html>
