@@ -41,13 +41,62 @@
           return style;
         }
       });
+	  
+	  // Points pour les capitales
+	  /* var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.transform([-72.0704, 46.678], 'EPSG:4326', 'EPSG:3857')),
+        name: 'Null Island 2',
+        population: 54000,
+        rainfall: 500
+      },{
+        geometry: new ol.geom.Point([0, 0]),
+        name: 'Null Island',
+        population: 64000,
+        rainfall: 500
+      }); */
+	  var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point([0, 0]),
+        name: 'Null Island',
+        population: 64000,
+        rainfall: 500
+      });
+	  /* var iconFeature = new ol.layer.Vector({
+	    source: new ol.source.Vector({
+		  url: './capitales_amerique_sud.geojson',
+		  format: new ol.format.GeoJSON()
+        }),
+        style: function(feature) {
+          style.getText().setText(feature.get('nombre'));
+          return style;
+        }
+      }); */
 
+
+      var iconStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'https://openlayers.org/en/v4.4.2/examples/data/icon.png'
+        }))
+      });
+
+      iconFeature.setStyle(iconStyle);
+	  
+	  var vectorSource = new ol.source.Vector({
+        features: [iconFeature]
+      });
+
+      var vectorCapitales = new ol.layer.Vector({
+        source: vectorSource
+      });
+	  
       var map = new ol.Map({
-        layers: [vectorLayer],
+        layers: [vectorLayer, vectorCapitales],
         target: 'map',
         view: new ol.View({
           center: [0, 0],
-          zoom: 1
+          zoom: 3
         })
       });
 
@@ -117,6 +166,48 @@
       map.on('click', function(evt) {
         displayFeatureInfo(evt.pixel);
       });
+	  
+	  // suite capitales pour pop-up
+      /* var element = document.getElementById('popup');
+
+      var popup = new ol.Overlay({
+        element: element,
+        positioning: 'bottom-center',
+        stopEvent: false,
+        offset: [0, -50]
+      });
+      map.addOverlay(popup);
+
+	  // display popup on click
+      map.on('click', function(evt) {
+        var feature2 = map.forEachFeatureAtPixel(evt.pixel,
+            function(feature2) {
+              return feature2;
+            });
+        if (feature2) {
+          var coordinates = feature2.getGeometry().getCoordinates();
+          popup.setPosition(coordinates);
+          $(element).popover({
+            'placement': 'top',
+            'html': true,
+            'content': feature2.get('name')
+          });
+          $(element).popover('show');
+        } else {
+          $(element).popover('destroy');
+        }
+      });
+
+      // change mouse cursor when over marker
+      map.on('pointermove', function(e) {
+        if (e.dragging) {
+          $(element).popover('destroy');
+          return;
+        }
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTarget().style.cursor = hit ? 'pointer' : '';
+      }); */
     </script>
   </body>
 </html>
