@@ -60,7 +60,7 @@
         population: 64000,
         rainfall: 500
       }); */
-	  var iconFeature = new ol.Feature({
+	  var vectorCapitales = new ol.layer.Vector({
 	    source: new ol.source.Vector({
 		  url: 'https://raw.githubusercontent.com/aaizemberg/geo-data/master/ar/indec/capitales.geojson',
 		  format: new ol.format.GeoJSON()
@@ -76,15 +76,7 @@
         }))
       });
 
-      iconFeature.setStyle(iconStyle);
-	  
-	  var vectorSource = new ol.source.Vector({
-        features: [iconFeature]
-      });
-
-      var vectorCapitales = new ol.layer.Vector({
-        source: vectorSource
-      });
+      vectorCapitales.setStyle(iconStyle);
 	  
       var map = new ol.Map({
         layers: [vectorLayer, vectorCapitales],
