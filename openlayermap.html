@@ -54,23 +54,18 @@
         population: 64000,
         rainfall: 500
       }); */
-	  var iconFeature = new ol.Feature({
+	  /* var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point([0, 0]),
         name: 'Null Island',
         population: 64000,
         rainfall: 500
-      });
-	  /* var iconFeature = new ol.layer.Vector({
+      }); */
+	  var iconFeature = new ol.Feature({
 	    source: new ol.source.Vector({
 		  url: 'https://raw.githubusercontent.com/aaizemberg/geo-data/master/ar/indec/capitales.geojson',
 		  format: new ol.format.GeoJSON()
-        }),
-        style: function(feature) {
-          style.getText().setText(feature.get('nombre'));
-          return style;
-        }
-      }); */
-
+        })
+      });
 
       var iconStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({

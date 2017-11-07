@@ -26,5 +26,6 @@
 { "type": "Feature", "properties": { "nombre": "SANTA ROSA", "estilo_id": 16, "link": "42021020", "varones": 49490, "mujeres": 53370, "personas": 102860 }, "geometry": { "type": "Point", "coordinates": [ -64.29, -36.62 ] } },
 { "type": "Feature", "properties": { "nombre": "SANTIAGO DEL ESTERO", "capital_provincia": "(capital)", "estilo_id": 16, "link": "86049110", "varones": 120026, "mujeres": 132166, "personas": 252192 }, "geometry": { "type": "Point", "coordinates": [ -64.27, -27.79 ] } },
 { "type": "Feature", "properties": { "nombre": "SALTA", "capital_provincia": "(capital)", "estilo_id": 16, "link": "66028050", "varones": 249153, "mujeres": 271530, "personas": 520683 }, "geometry": { "type": "Point", "coordinates": [ -65.41, -24.78 ] } }
+{ "type": "Feature", "properties": { "nombre": "Null Island", "capital_provincia": "(capital)", "estilo_id": 16, "link": "66028051", "varones": 249153, "mujeres": 271530, "personas": 520683 }, "geometry": { "type": "Point", "coordinates": [ 0, 0 ] } }
 ]
 }
