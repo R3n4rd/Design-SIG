@@ -20,7 +20,7 @@
 
       var vectorLayer = new ol.layer.Vector({
         source: new ol.source.Vector({
-          url: 'https://openlayers.org/en/v4.4.2/examples/data/geojson/countries.geojson',
+          url: 'countries',
           format: new ol.format.GeoJSON()
         }),
         style: function(feature) {
@@ -32,7 +32,7 @@
 	  // Points pour les capitales d'Argentine
 	  var vectorCapitales = new ol.layer.Vector({
 	    source: new ol.source.Vector({
-		  url: 'https://raw.githubusercontent.com/aaizemberg/geo-data/master/ar/indec/capitales.geojson',
+		  url: 'capitales_amerique_sud',
 		  format: new ol.format.GeoJSON()
         }),
 		style: function(feature) {
