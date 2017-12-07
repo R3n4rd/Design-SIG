@@ -1,3 +1,4 @@
+
 body {
 	background-color: #000020;
 }
@@ -14,12 +15,40 @@ button {
 	cursor: pointer;
 	position: relative;
 }
+label {
+	display:block;
+	margin-bottom: 10px;
+	color:black;
+}
+input[type=button]{
+	width: 40%;
+}
 #button {
 	position: relative;
 	float: right;
 }
-
 #map {
 	width: 100%;
 	position: fixed;
+}
+#formulaire {
+	position: relative;
+	float:right;
+	top: 100px;
+	right: -398px;
+	height:100%;
+	width: 300px;
+	background: whitesmoke;
+}
+.active{
+	display:block;
+}
+.container {
+	margin: 10px;
+	padding: 10px;
+}
+.milieu{
+	background:#c6c6c6;
+	height:auto;
+	width:100%;
 }

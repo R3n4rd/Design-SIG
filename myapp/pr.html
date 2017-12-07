@@ -1,24 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr" xml:lang="fr" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <title>Vector Layer</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="css" type="text/css">
+    <link rel="stylesheet" href="./pr.css" type="text/css">
 	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
   </head>
   <body>
-    <div id="map" class="map"></div>
-    <div id="info">&nbsp;</div>
-    <!-- <script src="pr"></script> -->
-	<script src="javascript_test"></script>
-	
-	<div id="button">
-		<button id="addButton">Ajouter</button>
-		<button id="editButton">Modifier</button>
-		<button id="delButton">Supprimer</button>
-	</div>
-	
+
+	</div class="milieu">
+    	<!--<div id="map" class="map"></div>
+    	<div id="info">&nbsp;</div>-->
+    	<!-- <script src="pr"></script> -->
+		<!--<script src="javascript_test"></script>-->
+    	<iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-5.504150390625001%2C9.503243879785233%2C2.8454589843750004%2C14.498508149446229&amp;layer=mapnik" style="border: 1px solid black"></iframe>
+
+
+		<div id="button">
+			<button id="addButton">Ajouter</button>
+			<button id="editButton">Modifier</button>
+			<button id="delButton">Supprimer</button>
+		</div>
+
+
+		<div id="formulaire" class="active">
+			<div class="container">
+				<label>ID</label>
+				<input id="IDinput" type="text"></input>
+			</div>
+			<div class="container">
+				<label>Coordonnée X</label>
+				<input id="Xinput" type="number"></input>
+			</div>		
+			<div class="container">
+				<label>Coordonnée Y</label>
+				<input id="Yinput" type="number"></input>
+			</div>	
+			<div class="container">
+				<label>Nom</label>
+				<input id="Nominput" type="text"></input>
+			</div>	
+			<div class="container">
+				<label>Comment</label>
+				<input id="Commentinput" type="text"></input>
+			</div>	
+			<div class="container">
+				<label>Date</label>
+				<input id="Dateinput" type="date"></input>
+			</div>	
+			<div class="container">
+				<input id="CancelButton" type="button" value="Cancel"></input>
+				<input id="SaveButton" type="button" value="Save"></input>
+			</div>	
+		</div>
+
+    </div>
+
   </body>
 </html>
