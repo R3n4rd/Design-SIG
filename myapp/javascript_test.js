@@ -108,6 +108,53 @@ var raster = new ol.layer.Tile({
 	  document.getElementById("editButton").onclick=setMode;
 	  map.on('click', mapClick);
 	  
+	  // document.getElementById("cancelBtn").onclick=cancelform;
+	  document.getElementById("saveBtn").onclick=function() {saveform(onsaved)};
+	  
+	  function onsaved(arg, msg) {
+		  if(arg==null){
+			  console.log(msg);
+		  }
+		  else {
+			  if(mode=='add') { tempFeature._id = rg._id; }
+		  }
+		  document.getElementById("addButton").style.color="black";
+		  document.getElementById("editButton").style.color="black";
+		  document.getElementById("form").style.visibility="collapse";
+	  }
+	  
+	  function saveform(callbak) {
+		savedata(callback);
+	  }
+	  
+	  function savedata (callback) {
+		var request = window.superagent; // superagent attention
+		var observation = { id:document.getElementById("IDinput").value,
+							name:document.getElementById("nameinput").value,
+							comment:document.getElementById("commentinput").value,
+							added:document.getElementById("dateinput").value,
+							image:null,
+							geometry; {type:"point", coordinates: [
+								document.getElementById("Xinput").value,
+							document.getElementById("Yinput").value]},
+						  };
+		if(mode==='add') 
+			request
+				.post('/form')
+				.send(observation)
+				.end(function(err,res) {
+					if (err) {
+						return callback(null, 'Erreur de connexion au serveur, ' + err.message);
+					}
+					if (res.status !== 200) {
+						return callback(null, res.text);
+					}
+					var jsonResp = JSON.parse(res.text);
+					callback(jsonResp);
+				});
+		}
+	  }
+	  
 	  function mapClick(e) {
 		  if(mode==="add") {
 			  var tFeature = {
