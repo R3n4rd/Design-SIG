@@ -1,4 +1,8 @@
-var raster = new ol.layer.Tile({
+	  var tempFeature;
+	  var obsLayer;
+
+
+	  var raster = new ol.layer.Tile({
         source: new ol.source.OSM()
       });
 
@@ -49,7 +53,7 @@ var raster = new ol.layer.Tile({
         source: source,
         style: styleFunction
       });
-
+	  
       var map = new ol.Map({
         layers: [raster, vector],
         target: 'map',
@@ -63,7 +67,7 @@ var raster = new ol.layer.Tile({
         source: source,
         type: /** @type {ol.geom.GeometryType} */ ('LineString')
       }));
-	  
+	  /*
 	  // gestion du fonctionnement des boutons add et modify
 	  var mode = "none";
 	  function setMode() {
@@ -74,7 +78,7 @@ var raster = new ol.layer.Tile({
 				  this.style.color="black";
 			  }
 			  else {
-				  mode="edit";
+				  mode="add";
 				  this.style.color="red";
 			  }
 		  }
@@ -111,6 +115,7 @@ var raster = new ol.layer.Tile({
 	  // document.getElementById("cancelBtn").onclick=cancelform;
 	  document.getElementById("saveBtn").onclick=function() {saveform(onsaved)};
 	  
+	  // ce qui est fait lorsqu'une observation a été stockée sur BD Mongo
 	  function onsaved(arg, msg) {
 		  if(arg==null){
 			  console.log(msg);
@@ -123,11 +128,15 @@ var raster = new ol.layer.Tile({
 		  document.getElementById("form").style.visibility="collapse";
 	  }
 	  
+	  // ce qui est fait lorsque le bouton "sauver" est cliqué
 	  function saveform(callbak) {
 		savedata(callback);
 	  }
 	  
-	  function savedata (callback) {
+	  */
+	  
+	  // ce qui est fait lorsque le bouton "sauver" est cliqué
+	  /*function savedata(callback) {
 		var request = window.superagent; // superagent attention
 		var observation = { id:document.getElementById("IDinput").value,
 							name:document.getElementById("nameinput").value,
@@ -181,10 +190,112 @@ var raster = new ol.layer.Tile({
 			  document.getElementById("Yinput").value = tFeature.geometry.coordinates[1];
 			  document.getElementById("form").style.visibility = "visible";
 		  }
-	  };
+	  }; */
 
+	  
+	  
+	  
+	  
+	  // Affichage des pays pour tester...............
+	  var style = new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: 'rgba(255, 255, 255, 0.6)'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#319FD3',
+          width: 1
+        }),
+        text: new ol.style.Text({
+          font: '12px Calibri,sans-serif',
+          fill: new ol.style.Fill({
+            color: '#000'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#fff',
+            width: 3
+          })
+        })
+      });
+	  
+	  var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          url: 'https://openlayers.org/en/v4.6.4/examples/data/geojson/countries.geojson',
+          format: new ol.format.GeoJSON()
+        }),
+        style: function(feature) {
+          style.getText().setText(feature.get('name'));
+          return style;
+        }
+      });
+	  map.addLayer(vectorLayer);
+	  
+	  // définit le style du texte affiché
+      var highlightStyle = new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: '#f00',
+          width: 1
+        }),
+        fill: new ol.style.Fill({
+          color: 'rgba(255,0,0,0.1)'
+        }),
+        text: new ol.style.Text({
+          font: '12px Calibri,sans-serif',
+          fill: new ol.style.Fill({
+            color: '#000'
+          }),
+          stroke: new ol.style.Stroke({
+            color: '#f00',
+            width: 3
+          })
+        })
+      });
 
+      var featureOverlay = new ol.layer.Vector({
+        source: new ol.source.Vector(),
+        map: map,
+        style: function(feature) {
+          return highlightStyle;
+        }
+      });
 
+      var highlight;
+      var displayFeatureInfo = function(pixel) {
+
+        var feature = map.forEachFeatureAtPixel(pixel, function(feature) {
+          return feature;
+        });
+
+		// déifini la composition du texte affiché
+        var info = document.getElementById('info');
+        if (feature) {
+          info.innerHTML = feature.getId() + ': ' + feature.get('name');
+        } else {
+          info.innerHTML = '&nbsp;';
+        }
+
+        if (feature !== highlight) {
+          if (highlight) {
+            featureOverlay.getSource().removeFeature(highlight);
+          }
+          if (feature) {
+            featureOverlay.getSource().addFeature(feature);
+          }
+          highlight = feature;
+        }
+
+      };
+
+      map.on('pointermove', function(evt) {
+        if (evt.dragging) {
+          return;
+        }
+        var pixel = map.getEventPixel(evt.originalEvent);
+        displayFeatureInfo(pixel);
+      });
+
+      map.on('click', function(evt) {
+        displayFeatureInfo(evt.pixel);
+      }); 
 
 	  
 
