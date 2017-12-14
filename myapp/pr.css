@@ -52,3 +52,30 @@ input[type=button]{
 	height:auto;
 	width:100%;
 }
+.header{
+	background:#f4ce42;
+	height:80px;
+	width:100%;
+	line-height: 80px;
+	text-align: center;
+}
+.header img{height:80px;width:auto;}
+
+.bas{
+	color:white;
+	background:#f4ce42;
+	height:80px;
+	width:100%;
+	
+}
+.bas > button{
+	line-height: 40px;
+	float:right;
+	margin:15px 5px 15px 0;
+	padding: 5px 15px;
+}	
+.bas span {
+	line-height: 80px;
+	margin-left: 15px;
+	font-size: 0.8em;
+}
