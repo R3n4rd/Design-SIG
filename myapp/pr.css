@@ -15,7 +15,7 @@ button {
 	cursor: pointer;
 	position: relative;
 }
-label {
+label{
 	display:block;
 	margin-bottom: 10px;
 	color:black;
@@ -23,59 +23,89 @@ label {
 input[type=button]{
 	width: 40%;
 }
-#button {
-	position: relative;
-	float: right;
+
+/* Définition des id (unique) */
+
+#button{
+	position: absolute;
+	top: 110px;
+	right:10px;
 }
-#map {
+#map{
 	width: 100%;
-	position: fixed;
+	position: absolute;
 }
-#formulaire {
-	position: relative;
-	float:right;
-	top: 100px;
-	right: -398px;
-	height:100%;
-	width: 300px;
+#formulaireAjouter{
+	position: absolute;
+	right:12px;
+	top: 170px;
+	height:auto;
+	width: 180px;
 	background: whitesmoke;
+	margin: 10px;
+	padding: 10px;
 }
-.active{
-	display:block;
+#formulaireSupprimer{
+	position: absolute;
+	right:12px;
+	top: 170px;
+	height:auto;
+	width: 180px;
+	background: whitesmoke;
+	margin: 10px;
+	padding: 10px;
 }
+#AffichButton{
+	position: absolute;
+	bottom: 38px;
+	left:17px;
+}
+#ListeCouches{
+	position: absolute;
+	bottom: 38px;
+	left:150px;
+	background: whitesmoke;
+	margin: 2px;
+	padding: 15px 32px;
+}
+
+/* Définition des class (plusieur) */
+
 .container {
 	margin: 10px;
 	padding: 10px;
 }
-.milieu{
-	background:#c6c6c6;
-	height:auto;
-	width:100%;
-}
 .header{
+	position: relative;
 	background:#f4ce42;
 	height:80px;
 	width:100%;
 	line-height: 80px;
 	text-align: center;
 }
-.header img{height:80px;width:auto;}
-
+.milieu{
+	position:relative;
+	background:#c6c6c6;
+	height:auto;
+	width:100%;
+}
 .bas{
 	color:white;
 	background:#f4ce42;
 	height:80px;
 	width:100%;
-	
-}
-.bas > button{
-	line-height: 40px;
-	float:right;
-	margin:15px 5px 15px 0;
-	padding: 5px 15px;
 }	
 .bas span {
 	line-height: 80px;
 	margin-left: 15px;
 	font-size: 0.8em;
+}
+
+/* Affichage JavaScript */
+
+.active{
+	display:block;
+}
+.inactive{
+	display: none;
 }

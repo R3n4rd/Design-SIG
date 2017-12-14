@@ -22,7 +22,7 @@
     	<!-- <script src="pr"></script> -->
 		<!--<script src="javascript_test"></script>-->
 
-    	<!--<iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-5.504150390625001%2C9.503243879785233%2C2.8454589843750004%2C14.498508149446229&amp;layer=mapnik" style="border: 1px solid black"></iframe>-->
+    	<iframe width="100%" height="500" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-5.504150390625001%2C9.503243879785233%2C2.8454589843750004%2C14.498508149446229&amp;layer=mapnik" style="border: 1px solid black"></iframe>
 
 		<div id="button">
 			<button id="addButton">Ajouter</button>
@@ -30,8 +30,7 @@
 			<button id="delButton">Supprimer</button>
 		</div>
 
-
-		<div id="formulaire" class="active">
+		<!--<div id="formulaire" class="active">
 			<div class="container">
 				<label>ID</label>
 				<input id="IDinput" type="text"></input>
@@ -60,7 +59,60 @@
 				<input id="CancelButton" type="button" value="Cancel"></input>
 				<input id="SaveButton" type="button" value="Save"></input>
 			</div>	
+		</div>-->
+
+		<div id="formulaireAjouter" class="active">
+			<form>
+  				ID<br>
+  				<input id="IDinput" type="text"></input><br>
+  				Coordonnée X<br>
+  				<input id="Xinput" type="number"></input><br>
+  				Coordonnée Y<br>
+  				<input id="Yinput" type="number"></input><br>
+  				Nom<br>
+  				<input id="Nominput" type="text"></input><br>
+  				Comment<br>
+  				<input id="Commentinput" type="text"></input><br>
+  				Date<br>
+  				<input id="Dateinput" type="date"></input><br><br>
+  				<input id="CancelButton" type="button" value="Cancel">
+  				<input id="SaveButton" type="button" value="Save"><br>
+			</form>
 		</div>
+
+		<div id="formulaireSupprimer" class="active">
+			<form>
+  				ID<br>
+  				<input id="IDinput" type="text"></input><br>
+  				Coordonnée X<br>
+  				<input id="Xinput" type="number"></input><br>
+  				Coordonnée Y<br>
+  				<input id="Yinput" type="number"></input><br>
+  				Nom<br>
+  				<input id="Nominput" type="text"></input><br>
+  				Comment<br>
+  				<input id="Commentinput" type="text"></input><br>
+  				Date<br>
+  				<input id="Dateinput" type="date"></input><br><br>
+  				<input id="CancelButton" type="button" value="Cancel">
+  				<input id="DeleteButton" type="button" value="Delete"><br>
+			</form>
+		</div>
+
+    	<div id="AffichButton">
+    		<button id="coucheButton">Couches</button>
+    	</div>
+
+    	<div id="ListeCouches" class="active">
+    		<form>
+				<input type="checkbox" name="choix1" value="1" checked> Routes
+				<input type="checkbox" name="choix2" value="2" checked> Pistes
+				<input type="checkbox" name="choix2" value="2" checked> Ouvrages
+			</form>
+    		<!--<button id="Routes">Routes</button>
+    		<button id="Ouvrages">Ouvrages</button>-->
+    	</div>
+
     </div>
 
 	<div class="bas">
