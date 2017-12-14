@@ -1,12 +1,22 @@
 	  var tempFeature;
 	  var obsLayer;
+	  var dc="none"; // pour les points éviter double clic
+	  var dcsave;
 
 
 	  var raster = new ol.layer.Tile({
         source: new ol.source.OSM()
       });
 
-      var source = new ol.source.Vector();
+	  var Point_style = new ol.style.Style({
+		  image: new ol.style.Circle({
+			  radius: 5,
+			  fill: new ol.style.Fill({color: 'red'}),
+			  stroke: new ol.style.Stroke({color: 'black', width: 0})
+		  })
+	  });
+	  
+      /* var source = new ol.source.Vector();
 
       var styleFunction = function(feature) {
         var geometry = feature.getGeometry();
@@ -19,7 +29,7 @@
             })
           })
         ];
-
+		
         geometry.forEachSegment(function(start, end) {
           var dx = end[0] - start[0];
           var dy = end[1] - start[1];
@@ -49,13 +59,18 @@
 
         return styles;
       };
+	  
       var vector = new ol.layer.Vector({
         source: source,
         style: styleFunction
-      });
-	  
+      }); */
+	
+
+	// crée la carte	
+	$(document).ready(function(){
+		  
       var map = new ol.Map({
-        layers: [raster, vector],
+        layers: [raster],
         target: 'map',
         view: new ol.View({
           center: [-11000000, 4600000],
@@ -63,11 +78,11 @@
         })
       });
 
-      map.addInteraction(new ol.interaction.Draw({
-        source: source,
-        type: /** @type {ol.geom.GeometryType} */ ('LineString')
-      }));
-	  /*
+      // map.addInteraction(new ol.interaction.Draw({
+        // source: source,
+        // type: /** @type {ol.geom.GeometryType} */ ('LineString')
+      // }));
+	  
 	  // gestion du fonctionnement des boutons add et modify
 	  var mode = "none";
 	  function setMode() {
@@ -76,10 +91,18 @@
 			  if(mode=="add") {
 				  mode="none";
 				  this.style.color="black";
+				  // pour s'amuser
+				  // map.addLayer(vectorLayer);
+				  map.removeLayer(obsLayer);
+				  document.getElementById("formulaire").style.visibility="hidden";
 			  }
 			  else {
 				  mode="add";
 				  this.style.color="red";
+				  // pour s'amuser
+				  // map.removeLayer(vectorLayer);
+				  map.addLayer(obsLayer);
+				  document.getElementById("formulaire").style.visibility="visible";
 			  }
 		  }
 		  else if (this.id == "editButton") {
@@ -87,6 +110,7 @@
 			  if(mode=="edit") {
 				  mode="none";
 				  this.style.color="black";
+				  // incroyable : https://openlayers.org/en/latest/examples/draw-and-modify-features.html
 			  }
 			  else {
 				  mode="edit";
@@ -94,9 +118,6 @@
 			  }
 		  }
 	  };
-	  
-	  document.getElementById("addButton").onclick=setMode;
-	  document.getElementById("editButton").onclick=setMode;
 	  
 	  // ajout de la couche "observations"
 	  obsLayer = new ol.layer.Vector({
@@ -106,17 +127,29 @@
 			  projection: 'EPSG:4326'
 		  })
 	  });
-	  map.addLayer(obsLayer);
 	  
 	  document.getElementById("addButton").onclick=setMode;
 	  document.getElementById("editButton").onclick=setMode;
 	  map.on('click', mapClick);
 	  
-	  // document.getElementById("cancelBtn").onclick=cancelform;
-	  document.getElementById("saveBtn").onclick=function() {saveform(onsaved)};
+	  // Arrêter un ajout
+	  document.getElementById("CancelButton").onclick=cancelform;
+	  function cancelform() {
+		  mode="none";
+		  mode="none";
+		  document.getElementById("addButton").style.color="black";
+		  document.getElementById("formulaire").style.visibility="hidden";
+		  // document.getElementById("formulaire").style.visibility="hidden";
+		  obsLayer.getSource().removeFeature(tempFeature);
+		  dc="none";
+		  map.removeLayer(obsLayer);
+		  // cool : https://gis.stackexchange.com/questions/126909/remove-selected-feature-openlayers-3
+	  }
+	  
+	  // document.getElementById("SaveButton").onclick=function() {saveform(onsaved)};
 	  
 	  // ce qui est fait lorsqu'une observation a été stockée sur BD Mongo
-	  function onsaved(arg, msg) {
+	  /*function onsaved(arg, msg) {
 		  if(arg==null){
 			  console.log(msg);
 		  }
@@ -161,11 +194,13 @@
 					var jsonResp = JSON.parse(res.text);
 					callback(jsonResp);
 				});
-		}
-	  }
+	  } */
 	  
 	  function mapClick(e) {
 		  if(mode==="add") {
+			  if(dc==="addone") {
+				  obsLayer.getSource().removeFeature(dcsave);
+			  }
 			  var tFeature = {
 				  'type': 'Feature',
 				  'properties':{
@@ -176,25 +211,23 @@
 				  },
 				  'geometry': {
 					  'type': 'Point',
-					  'coordinates': e.coordinae
+					  'coordinates': e.coordinate
 				  }
 			  };
 			  var reader = new ol.format.GeoJSON();
 			  tempFeature = reader.readFeature(tFeature);
 			  obsLayer.getSource().addFeature(tempFeature);
 			  
-			  document.getElementById("nameinput").value = tFeature.propeties.name;
-			  document.getElementById("commentinput").value = tFeature.propeties.comment;
-			  document.getElementById("dateinput").value = tFeature.propeties.added;
+			  document.getElementById("Nominput").value = tFeature.properties.name;
+			  document.getElementById("Commentinput").value = tFeature.properties.comment;
+			  document.getElementById("Dateinput").value = tFeature.properties.added;
 			  document.getElementById("Xinput").value = tFeature.geometry.coordinates[0];
 			  document.getElementById("Yinput").value = tFeature.geometry.coordinates[1];
-			  document.getElementById("form").style.visibility = "visible";
+			  document.getElementById("formulaire").style.visibility = "visible";
+			  dc="addone";
+			  dcsave=tempFeature;
 		  }
-	  }; */
-
-	  
-	  
-	  
+	  };
 	  
 	  // Affichage des pays pour tester...............
 	  var style = new ol.style.Style({
@@ -227,7 +260,7 @@
           return style;
         }
       });
-	  map.addLayer(vectorLayer);
+	  // map.addLayer(vectorLayer);
 	  
 	  // définit le style du texte affiché
       var highlightStyle = new ol.style.Style({
@@ -265,7 +298,7 @@
           return feature;
         });
 
-		// déifini la composition du texte affiché
+		// définit la composition du texte affiché
         var info = document.getElementById('info');
         if (feature) {
           info.innerHTML = feature.getId() + ': ' + feature.get('name');
@@ -297,7 +330,16 @@
         displayFeatureInfo(evt.pixel);
       }); 
 
-	  
+	  // cache et affiche le formulaire
+	  /*document.getElementById("addButton").onclick=cheval;
+	  function cheval() {
+			  document.getElementById("formulaire").style.visibility="hidden";
+	  }
+	  document.getElementById("editButton").onclick=piano;
+	  function piano() {
+			  document.getElementById("formulaire").style.visibility="visible";
+	  } */
+	});
 
 	  
 	  
