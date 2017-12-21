@@ -3,11 +3,20 @@
 	  var dc="none"; // pour les points éviter double clic
 	  var dcsave;
 
-
+	  // carte de base
 	  var raster = new ol.layer.Tile({
         source: new ol.source.OSM()
       });
+	  
+	  // carte Bing pour image satellite
+	  var bing = new ol.layer.Tile({
+        source: new ol.source.BingMaps({
+          key: 'AjszTerrqnhuyrJY2xP9yRNJazKVcNdRGmgsBpzxfNUFRPgSMB5n2MJ6dEPyYO1t',
+          imagerySet: 'Aerial'
+        })
+      });
 
+	  // définition du style des points d'observation
 	  var Point_style = new ol.style.Style({
 		  image: new ol.style.Circle({
 			  radius: 5,
@@ -73,8 +82,8 @@
         layers: [raster],
         target: 'map',
         view: new ol.View({
-          center: [-11000000, 4600000],
-          zoom: 4
+          center: [-200000, 1400000],
+          zoom: 7
         })
       });
 
@@ -382,8 +391,12 @@
 	  function pistes_details() {
 		  if (document.getElementById("box_pistes").checked==true) {
 			  // on affiche la couche routes
+			  map.addLayer(bing);
+			  map.removeLayer(raster);
 		  } else {
 			  // on désaffiche la couche routes
+			  map.addLayer(raster);
+			  map.removeLayer(bing);
 		  }
 	  }
 	  document.getElementById("box_ouvrages").onclick=ouvrages_details;
@@ -394,6 +407,10 @@
 			  // on désaffiche la couche routes
 		  }
 	  }
+	  
+	  // gestion de l'ordre de superposition des couches
+	  obsLayer.setZIndex(10);
+	  vectorLayer.setZIndex(5);
 	  
 	});
 
