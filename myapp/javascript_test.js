@@ -390,11 +390,11 @@
 	  document.getElementById("box_pistes").onclick=pistes_details;
 	  function pistes_details() {
 		  if (document.getElementById("box_pistes").checked==true) {
-			  // on affiche la couche routes
+			  // on affiche la couche pistes
 			  map.addLayer(bing);
 			  map.removeLayer(raster);
 		  } else {
-			  // on désaffiche la couche routes
+			  // on désaffiche la couche pistes
 			  map.addLayer(raster);
 			  map.removeLayer(bing);
 		  }
@@ -402,9 +402,11 @@
 	  document.getElementById("box_ouvrages").onclick=ouvrages_details;
 	  function ouvrages_details() {
 		  if (document.getElementById("box_ouvrages").checked==true) {
-			  // on affiche la couche routes
+			  // on affiche la couche ouvrages
+			  // map.addLayer(ouvragesLayer);
 		  } else {
-			  // on désaffiche la couche routes
+			  // on désaffiche la couche ouvrages
+			  // map.removeLayer(ouvragesLayer);
 		  }
 	  }
 	  
