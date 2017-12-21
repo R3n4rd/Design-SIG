@@ -86,40 +86,53 @@
 	  // gestion du fonctionnement des boutons add et modify
 	  var mode = "none";
 	  function setMode() {
-		  if (this.id == "addButton") {
-			  document.getElementById("editButton").style.color="black";
+		  if (this.id == "addButton" && mode!="edit") {
 			  if(mode=="add") {
 				  mode="none";
-				  this.style.color="black";
+				  this.style.color="white";
+				  this.style.backgroundColor="#4CAF50";
 				  // pour s'amuser
 				  // map.addLayer(vectorLayer);
 				  map.removeLayer(obsLayer);
-				  document.getElementById("formulaire").style.visibility="hidden";
+				  document.getElementById("formulaireAjouter").style.visibility="hidden";
+				  document.getElementById("editButton").style.color="white";
+				  document.getElementById("editButton").style.backgroundColor="#4CAF50";
 			  }
 			  else {
 				  mode="add";
 				  this.style.color="red";
+				  this.style.backgroundColor="yellow";
 				  // pour s'amuser
 				  // map.removeLayer(vectorLayer);
 				  map.addLayer(obsLayer);
-				  document.getElementById("formulaire").style.visibility="visible";
+				  document.getElementById("formulaireAjouter").style.visibility="visible";
+				  document.getElementById("editButton").style.color="black";
+				  document.getElementById("editButton").style.backgroundColor="grey";
 			  }
 		  }
-		  else if (this.id == "editButton") {
-			  document.getElementById("addButton").style.color="black";
+		  else if (this.id == "editButton" && mode!="add") {
 			  if(mode=="edit") {
 				  mode="none";
-				  this.style.color="black";
+				  this.style.color="white";
+				  this.style.backgroundColor="#4CAF50";
+				  document.getElementById("addButton").style.color="white";
+				  document.getElementById("addButton").style.backgroundColor="#4CAF50";
 				  // incroyable : https://openlayers.org/en/latest/examples/draw-and-modify-features.html
 			  }
 			  else {
 				  mode="edit";
 				  this.style.color="red";
+				  this.style.backgroundColor="yellow";
+				  document.getElementById("addButton").style.color="black";
+				  document.getElementById("addButton").style.backgroundColor="grey";
 			  }
 		  }
 	  };
+	  // en attendant de s'occuper de ce cas on grise
+	  document.getElementById("delButton").style.color="black";
+	  document.getElementById("delButton").style.backgroundColor="grey";
 	  
-	  // ajout de la couche "observations"
+	  // Ajout de la couche "observations"
 	  obsLayer = new ol.layer.Vector({
 		  style: Point_style,
 		  source: new ol.source.Vector({
@@ -130,16 +143,20 @@
 	  
 	  document.getElementById("addButton").onclick=setMode;
 	  document.getElementById("editButton").onclick=setMode;
+	  
 	  map.on('click', mapClick);
 	  
 	  // Arrêter un ajout
 	  document.getElementById("CancelButton").onclick=cancelform;
 	  function cancelform() {
 		  mode="none";
-		  mode="none";
 		  document.getElementById("addButton").style.color="black";
-		  document.getElementById("formulaire").style.visibility="hidden";
-		  // document.getElementById("formulaire").style.visibility="hidden";
+			  document.getElementById("Nominput").value = '';
+			  document.getElementById("Commentinput").value = '';
+			  document.getElementById("Dateinput").value = '';
+			  document.getElementById("Xinput").value = '';
+			  document.getElementById("Yinput").value = '';
+		  document.getElementById("formulaireAjouter").style.visibility="hidden";
 		  obsLayer.getSource().removeFeature(tempFeature);
 		  dc="none";
 		  map.removeLayer(obsLayer);
@@ -223,7 +240,7 @@
 			  document.getElementById("Dateinput").value = tFeature.properties.added;
 			  document.getElementById("Xinput").value = tFeature.geometry.coordinates[0];
 			  document.getElementById("Yinput").value = tFeature.geometry.coordinates[1];
-			  document.getElementById("formulaire").style.visibility = "visible";
+			  document.getElementById("formulaireAjouter").style.visibility = "visible";
 			  dc="addone";
 			  dcsave=tempFeature;
 		  }
@@ -339,6 +356,45 @@
 	  function piano() {
 			  document.getElementById("formulaire").style.visibility="visible";
 	  } */
+	  
+	  // Visibilité des couches
+	  var first=true; // first car il y avait un bug lorsqu'on prend direct la prama visibility
+	  document.getElementById("AffichButton").onclick=couches;
+	  function couches() {
+		  if (document.getElementById("ListeCouches").style.visibility==="hidden" || first) {
+			  document.getElementById("ListeCouches").style.visibility="visible";
+			  first=false;
+		  } else {
+			  document.getElementById("ListeCouches").style.visibility="hidden";
+		  }
+	  }
+	  document.getElementById("box_routes").onclick=routes_details;
+	  function routes_details() {
+		  if (document.getElementById("box_routes").checked==true) {
+			  // on affiche la couche routes
+			  map.addLayer(vectorLayer);
+		  } else {
+			  // on désaffiche la couche routes
+			  map.removeLayer(vectorLayer);
+		  }
+	  }
+	  document.getElementById("box_pistes").onclick=pistes_details;
+	  function pistes_details() {
+		  if (document.getElementById("box_pistes").checked==true) {
+			  // on affiche la couche routes
+		  } else {
+			  // on désaffiche la couche routes
+		  }
+	  }
+	  document.getElementById("box_ouvrages").onclick=ouvrages_details;
+	  function ouvrages_details() {
+		  if (document.getElementById("box_ouvrages").checked==true) {
+			  // on affiche la couche routes
+		  } else {
+			  // on désaffiche la couche routes
+		  }
+	  }
+	  
 	});
 
 	  
