@@ -3,81 +3,52 @@
   <head>
     <title>Vector Layer</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="css" type="text/css">
+    <!--<link rel="stylesheet" href="css" type="text/css">-->
+    <link rel="stylesheet" href="./pr.css" type="text/css">
 	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
 	<!-- ce truc ajax sert à quelque chose ? -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<!--<script src="javascript_test"></script>-->
+	<script src="./javascript_test.js"></script>
   </head>
   <body>
   
 	<div class="header">
-    	<!--<img src="Image/Burkina.png" alt="Burkina Faso"/> -->
     	<h1>SIG Burkina Faso</h1>
-    	<!--<img src="Image/Zebu.jpg" alt="Zébu"/>-->
 	</div>
-	
-	</div class="milieu">
-    	<div id="map" class="map"></div>
-    	<div id="info">&nbsp;</div>
-    	<!-- <script src="pr"></script> -->
-		<script src="javascript_test"></script>
-    	<!-- <iframe width="100%" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://www.openstreetmap.org/export/embed.html?bbox=-5.504150390625001%2C9.503243879785233%2C2.8454589843750004%2C14.498508149446229&amp;layer=mapnik" style="border: 1px solid black"></iframe> -->
 
-		<div id="button">
+	<div class="milieu">
+
+		<div id="map" class="map"></div>
+
+    	<div id="button">
 			<button id="addButton">Ajouter</button>
 			<button id="editButton">Modifier</button>
 			<button id="delButton">Supprimer</button>
 		</div>
-
-		<!-- <div id="formulaire" class="inactive">
-			<div class="container">
-				<label>ID</label>
-				<input id="IDinput" type="text"></input>
-			</div>
-			<div class="container">
-				<label>Coordonnée X</label>
-				<input id="Xinput" type="number"></input>
-			</div>		
-			<div class="container">
-				<label>Coordonnée Y</label>
-				<input id="Yinput" type="number"></input>
-			</div>	
-			<div class="container">
-				<label>Nom</label>
-				<input id="Nominput" type="text"></input>
-			</div>	
-			<div class="container">
-				<label>Comment</label>
-				<input id="Commentinput" type="text"></input>
-			</div>	
-			<div class="container">
-				<label>Date</label>
-				<input id="Dateinput" type="date"></input>
-			</div>	
-			<div class="container">
-				<input id="CancelButton" type="button" value="Cancel"></input>
-				<input id="SaveButton" type="button" value="Save"></input>
-			</div>	
-		</div> -->
-
 		<div id="formulaireAjouter" class="inactive">
 			<form>
-  				ID<br>
+  				&nbsp;ID<br>
   				<input id="IDinput" type="text"></input><br>
-  				Coordonnée X<br>
+  				&nbsp;Coordonnee X<br>
   				<input id="Xinput" type="number"></input><br>
-  				Coordonnée Y<br>
+  				&nbsp;Coordonnee Y<br>
   				<input id="Yinput" type="number"></input><br>
-  				Nom<br>
+  				&nbsp;Nom<br>
   				<input id="Nominput" type="text"></input><br>
-  				Comment<br>
+  				&nbsp;Comment<br>
   				<input id="Commentinput" type="text"></input><br>
-  				Date<br>
-  				<input id="Dateinput" type="date"></input><br><br>
-  				<input id="CancelButton" type="button" value="Cancel">
-  				<input id="SaveButton" type="button" value="Save"><br>
+  				&nbsp;Date<br>
+  				<input id="Dateinput" type="date"></input><br>
+  				&nbsp;Image<br>
+  				<div style="min-height:60px; border:solid 1px #CBD0CF; margin:2px; "></div>
+  				<input id="ImageButton" type="button" value="Choisir"><br>
+  				<div id="ananas">
+  					<input id="CancelButton" type="button" value="Cancel">
+  					<input id="SaveButton" type="button" value="Save"><br>
+  				</div>
 			</form>
 		</div>
 
@@ -85,9 +56,9 @@
 			<form>
   				ID<br>
   				<input id="IDinput" type="text"></input><br>
-  				Coordonnée X<br>
+  				Coordonnee X<br>
   				<input id="Xinput" type="number"></input><br>
-  				Coordonnée Y<br>
+  				Coordonnee Y<br>
   				<input id="Yinput" type="number"></input><br>
   				Nom<br>
   				<input id="Nominput" type="text"></input><br>
@@ -95,15 +66,18 @@
   				<input id="Commentinput" type="text"></input><br>
   				Date<br>
   				<input id="Dateinput" type="date"></input><br><br>
-  				<input id="CancelButton" type="button" value="Cancel">
-  				<input id="DeleteButton" type="button" value="Delete"><br>
+  				&nbsp;Image<br>
+  				<div style="min-height:60px; border:solid 1px #CBD0CF; margin:2px; "></div>
+  				<input id="ImageButton" type="button" value="Choisir"><br>
+  				<div id="ananas">
+  					<input id="CancelButton" type="button" value="Cancel">
+  					<input id="DeleteButton" type="button" value="Delete"><br>
+  				</div>
 			</form>
 		</div>
-
-    	<div id="AffichButton">
+		<div id="AffichButton">
     		<button id="coucheButton">Couches</button>
     	</div>
-
     	<div id="ListeCouches" class="inactive">
     		<form>
 				<input type="checkbox" name="choix1" value="1" id="box_routes"> Routes
@@ -114,10 +88,17 @@
     		<button id="Ouvrages">Ouvrages</button>-->
     	</div>
 
-    </div>
+    	<div id="FondCarte">
+    		Fond de carte :
+    		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" id="carte1" name="carte1" /> Plan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="radio" id="carte2" name="carte2" /> Satellite
+    	</div>
+
+	</div>
 
 	<div class="bas">
-    	<span>Copyright &copy; #oupas</span>
+    	<span>Copyright &copy; </span>
     	<!--<button type ="button" onclick="$('#menu').toggleClass('inactive'); $(this).toggleClass('active');">Afficher le menu</button>-->
 	</div>
 
