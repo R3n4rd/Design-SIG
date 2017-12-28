@@ -25,6 +25,45 @@
 		  })
 	  });
 	  
+	  // définition du style des points des ouvrages
+	  var Point_style_Ouvrages = new ol.style.Style({
+		  image: new ol.style.Circle({
+			  radius: 5,
+			  fill: new ol.style.Fill({color: 'black'}),
+			  stroke: new ol.style.Stroke({color: 'black', width: 0})
+		  })
+	  });
+	  
+	  // style Routes et Pistes
+	  var Routes = new ol.style.Style({
+		  fill: new ol.style.Fill({color:'rgba(200,10,10,0.2)',width:4}),
+		  stroke: new ol.style.Stroke({color:'rgba(255,0,0,1)',width:1}),			  
+	  });
+	  
+	  var Pistes = new ol.style.Style({
+		  fill: new ol.style.Fill({color:'rgba(200,10,10,0.2)',width:2}),
+		  stroke: new ol.style.Stroke({color:'rgba(204,204,0,1)',width:1}),			  
+	  });
+	  
+	  // import routesLL et pistesLL
+	  var Routes_Import = new ol.layer.Vector({
+		  style: Routes,
+		  source: new ol.source.Vector({
+			  url: '/jsonmap/routesLL',
+			  format: new ol.format.GeoJSON(),
+			  projection:'EPSG:4326',
+		  })
+	  });
+	  
+	  var Pistes_Import = new ol.layer.Vector({
+		  style: Pistes,
+		  source: new ol.source.Vector({
+			  url: '/jsonmap/pistesLL',
+			  format: new ol.format.GeoJSON(),
+			  projection:'EPSG:4326',
+		  })
+	  });
+	  
       /* var source = new ol.source.Vector();
 
       var styleFunction = function(feature) {
@@ -87,6 +126,10 @@
         })
       });
 
+	  // Ajout de la couche des Routes et Pistes
+	  // map.addLayer(Routes_Import);
+	  // map.addLayer(Pistes_Import);
+	  
       // map.addInteraction(new ol.interaction.Draw({
         // source: source,
         // type: /** @type {ol.geom.GeometryType} */ ('LineString')
@@ -159,54 +202,80 @@
 	  document.getElementById("CancelButton").onclick=cancelform;
 	  function cancelform() {
 		  mode="none";
-		  document.getElementById("addButton").style.color="black";
+		  document.getElementById("addButton").style.color="white";
+		  document.getElementById("addButton").style.backgroundColor="#4CAF50";
+		  document.getElementById("editButton").style.color="white";
+		  document.getElementById("editButton").style.backgroundColor="#4CAF50";
+			  document.getElementById("IDinput").value = '';
 			  document.getElementById("Nominput").value = '';
 			  document.getElementById("Commentinput").value = '';
 			  document.getElementById("Dateinput").value = '';
 			  document.getElementById("Xinput").value = '';
 			  document.getElementById("Yinput").value = '';
+			  document.getElementById("IDinput").style.backgroundColor = '';
 		  document.getElementById("formulaireAjouter").style.visibility="hidden";
-		  obsLayer.getSource().removeFeature(tempFeature);
+		  if (tempFeature) {
+			  obsLayer.getSource().clear(tempFeature);
+		  }
 		  dc="none";
 		  map.removeLayer(obsLayer);
 		  // cool : https://gis.stackexchange.com/questions/126909/remove-selected-feature-openlayers-3
 	  }
 	  
-	  // document.getElementById("SaveButton").onclick=function() {saveform(onsaved)};
+	  // Enregistrement d'un ajout de point
+	  document.getElementById("SaveButton").onclick=function() {saveform(onsaved)};
 	  
 	  // ce qui est fait lorsqu'une observation a été stockée sur BD Mongo
-	  /*function onsaved(arg, msg) {
+	  function onsaved(arg, msg) {
 		  if(arg==null){
 			  console.log(msg);
 		  }
 		  else {
-			  if(mode=='add') { tempFeature._id = rg._id; }
+			  if(mode=='add') { tempFeature._id = arg._id; }
 		  }
-		  document.getElementById("addButton").style.color="black";
-		  document.getElementById("editButton").style.color="black";
-		  document.getElementById("form").style.visibility="collapse";
+		  document.getElementById("addButton").style.color="white";
+		  document.getElementById("addButton").style.backgroundColor="#4CAF50";
+		  document.getElementById("editButton").style.color="white";
+		  document.getElementById("editButton").style.backgroundColor="#4CAF50";
+		  mode="none";
+			  document.getElementById("IDinput").value = '';
+			  document.getElementById("Nominput").value = '';
+			  document.getElementById("Commentinput").value = '';
+			  document.getElementById("Dateinput").value = '';
+			  document.getElementById("Xinput").value = '';
+			  document.getElementById("Yinput").value = '';
+			  document.getElementById("IDinput").style.backgroundColor = '';
+		  document.getElementById("formulaireAjouter").style.visibility="hidden";
+		  dc="none";
+		  map.removeLayer(obsLayer);
 	  }
 	  
 	  // ce qui est fait lorsque le bouton "sauver" est cliqué
-	  function saveform(callbak) {
+	  function saveform(callback) {
 		savedata(callback);
 	  }
-	  
-	  */
-	  
+	  	  
 	  // ce qui est fait lorsque le bouton "sauver" est cliqué
-	  /*function savedata(callback) {
+	  function savedata(callback) {
 		var request = window.superagent; // superagent attention
-		var observation = { id:document.getElementById("IDinput").value,
-							name:document.getElementById("nameinput").value,
-							comment:document.getElementById("commentinput").value,
-							added:document.getElementById("dateinput").value,
-							image:null,
-							geometry; {type:"point", coordinates: [
-								document.getElementById("Xinput").value,
-							document.getElementById("Yinput").value]},
-						  };
-		if(mode==='add') 
+		// superagent installer puis copier/coller dans le dossier public
+		var observation = { 
+		"type": "Feature",
+		"properties": {
+			"id": document.getElementById("IDinput").value,
+			"name": document.getElementById("Nominput").value,
+			"comment": document.getElementById("Commentinput").value,
+			"added": document.getElementById("Dateinput").value,
+			"image": null,
+		},
+		"geometry": {
+			"type": "Point",
+			"coordinates": [
+				document.getElementById("Xinput").value,
+				document.getElementById("Yinput").value],
+			}
+		};
+		if(mode==='add') {
 			request
 				.post('/form')
 				.send(observation)
@@ -217,22 +286,32 @@
 					if (res.status !== 200) {
 						return callback(null, res.text);
 					}
-					var jsonResp = JSON.parse(res.text);
+					// var jsonResp = JSON.parse(res.text);
+					var jsonResp = res.text;
+					// console.log(observation);
 					callback(jsonResp);
 				});
-	  } */
+		} else {
+			console.log("Interdit, pas de point");
+			document.getElementById("IDinput").style.backgroundColor = 'red'; // par exemple
+		}
+		addObservations(); // on réactualise la carte avec le nouveau point
+		if (tempFeature) { // et on oublie pas de nettoyer le point
+		    obsLayer.getSource().clear(tempFeature);
+		}
+	  }
 	  
 	  function mapClick(e) {
 		  if(mode==="add") {
 			  if(dc==="addone") {
-				  obsLayer.getSource().removeFeature(dcsave);
+				  obsLayer.getSource().clear(dcsave);
 			  }
 			  var tFeature = {
 				  'type': 'Feature',
 				  'properties':{
-					  'name': 'new name',
-					  'comment': 'no comment',
-					  'added': '',
+					  'name': 'name',
+					  'comment': 'comment',
+					  'added': '2018-01-01',
 					  'image': ''
 				  },
 				  'geometry': {
@@ -254,6 +333,59 @@
 			  dcsave=tempFeature;
 		  }
 	  };
+	  
+	  
+	  // Ajout de la couche ouvrages des observations
+	  Ouvrages_Layer = new ol.layer.Vector({
+		  style: Point_style_Ouvrages,
+		  source: new ol.source.Vector({
+			  format: new ol.format.GeoJSON(),
+			  projection: 'EPSG:4326'
+		  })
+	  });
+	  
+	  // map.addLayer(Ouvrages_Layer);
+	  addObservations();
+	  
+	  // Affichage des objets ouvrages des observations
+	  function addObservations() {
+		  var request = window.superagent;
+		  request
+			.get('/form')
+			.end(function(err,res) {
+				if (err) {
+					return callback(null, 'Erreur de connexion au serveur, ' + err.message);
+				}
+				if (res.status !== 200) {
+					return callback(null, res.text);
+				}
+				// var data = JSON.parse(res.text);
+				var data = res.body;
+				// console.log(res.body[0].geometry.coordinates[0]); // exemple
+				for (i=0; i<data.length; i++) {
+					var geojsonFeature = {
+						"type": "Feature",
+						"properties": {
+							"id": data[i]._id,
+							"name": data[i].properties.name,
+							"comment": data[i].properties.comment,
+							"added": data[i].properties.added,
+							"image": data[i].properties.image,
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [
+								Number(data[i].geometry.coordinates[0]),
+								Number(data[i].geometry.coordinates[1])]
+						}
+					};
+					// console.log(geojsonFeature);
+					var reader = new ol.format.GeoJSON();
+					var olFeature = reader.readFeature(geojsonFeature);
+					Ouvrages_Layer.getSource().addFeature(olFeature);
+				}
+			});
+	  }
 	  
 	  // Affichage des pays pour tester...............
 	  var style = new ol.style.Style({
@@ -324,8 +456,8 @@
           return feature;
         });
 
-		// définit la composition du texte affiché
-        var info = document.getElementById('info');
+		// définit la composition du texte affiché -> infobulle
+        /* var info = document.getElementById('info');
         if (feature) {
           info.innerHTML = feature.getId() + ': ' + feature.get('name');
         } else {
@@ -340,7 +472,7 @@
             featureOverlay.getSource().addFeature(feature);
           }
           highlight = feature;
-        }
+        } */
 
       };
 
@@ -381,37 +513,60 @@
 	  function routes_details() {
 		  if (document.getElementById("box_routes").checked==true) {
 			  // on affiche la couche routes
-			  map.addLayer(vectorLayer);
+			  map.addLayer(Routes_Import);
 		  } else {
 			  // on désaffiche la couche routes
-			  map.removeLayer(vectorLayer);
+			  map.removeLayer(Routes_Import);
 		  }
 	  }
 	  document.getElementById("box_pistes").onclick=pistes_details;
 	  function pistes_details() {
 		  if (document.getElementById("box_pistes").checked==true) {
 			  // on affiche la couche pistes
-			  map.addLayer(bing);
-			  map.removeLayer(raster);
+			  map.addLayer(Pistes_Import);
 		  } else {
 			  // on désaffiche la couche pistes
-			  map.addLayer(raster);
-			  map.removeLayer(bing);
+			  map.removeLayer(Pistes_Import);
 		  }
 	  }
 	  document.getElementById("box_ouvrages").onclick=ouvrages_details;
 	  function ouvrages_details() {
 		  if (document.getElementById("box_ouvrages").checked==true) {
 			  // on affiche la couche ouvrages
-			  // map.addLayer(ouvragesLayer);
+			  map.addLayer(Ouvrages_Layer);
 		  } else {
 			  // on désaffiche la couche ouvrages
-			  // map.removeLayer(ouvragesLayer);
+			  map.removeLayer(Ouvrages_Layer);
 		  }
 	  }
-	  
+	  document.getElementById("carte1").onclick=pays_limits;
+	  function pays_limits() {
+		  if (document.getElementById("carte1").checked==true) {
+			  // on affiche la couche des pays
+			  map.addLayer(vectorLayer);
+		  } else {
+			  // on désaffiche la couche ouvrages
+			  map.removeLayer(vectorLayer);
+			  document.getElementById("carte1").checked==false;
+		  }
+	  }
+	  document.getElementById("carte2").onclick=satellite;
+	  function satellite() {
+		  if (document.getElementById("carte2").checked==true) {
+			  // on affiche la couche des pays
+			  map.addLayer(bing);
+			  map.removeLayer(raster);
+		  } else {
+			  // on désaffiche la couche ouvrages
+			  map.addLayer(raster);
+			  map.removeLayer(bing);
+		  }
+	  }
 	  // gestion de l'ordre de superposition des couches
-	  obsLayer.setZIndex(10);
+	  obsLayer.setZIndex(20);
+	  Ouvrages_Layer.setZIndex(15)
+	  Routes_Import.setZIndex(9);
+	  Pistes_Import.setZIndex(8);
 	  vectorLayer.setZIndex(5);
 	  
 	});
