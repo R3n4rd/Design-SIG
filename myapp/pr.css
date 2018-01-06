@@ -78,6 +78,15 @@ input[type=button]{
 	text-align: center;
 	margin:5px;
 }
+#infobox{
+	position:relative;
+	top:5px;
+	left:200px;
+	width:300px;
+	text-align: left;
+	margin:5px;
+	background-color:yellow;
+}
 #AffichButton{
 	position: absolute;
 	bottom: 11px;

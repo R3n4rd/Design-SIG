@@ -41,9 +41,10 @@ router.get('/jsonmap/:name', function(req, res) {
 
 // Traitement de l'observation
 var obs = new Schema({
+	// _id: Object,
 	type: String,
 	properties: {
-		id: Number,
+		id: String,
 		name: String,
 		comment: String,
 		added: Date,
@@ -76,6 +77,44 @@ router.get('/form', function(req,res) {
 	});
 });
 
+router.put('/form/update', function(req,res) {
+	// console.log(req.body);
+	var id=req.body.properties.id, body=req.body;
+	observation.findByIdAndUpdate(id, body, function(err, docs) {
+		// console.log(err.message);
+		// console.log(id);
+		if (err) {
+			res.send(err.message);
+		} else {
+			res.send("OK");
+		}
+	});
+});
+
+router.put('/form/update', function(req,res) {
+	// console.log(req.body);
+	var id=req.body.properties.id, body=req.body;
+	observation.findByIdAndUpdate(id, body, function(err, docs) {
+		// console.log(err.message);
+		// console.log(id);
+		if (err) {
+			res.send(err.message);
+		} else {
+			res.send("OK");
+		}
+	});
+});
+
+router.put('/form/delete', function(req,res) {
+	var id=req.body.properties.id, body=req.body;
+	observation.findByIdAndRemove(id, function(err, docs) {
+		if (err) {
+			res.send(err.message);
+			console.log(err.message);
+		} else {
+			res.send("OK");
+		}
+	});
+});
 
 module.exports = router;
-

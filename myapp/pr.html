@@ -33,7 +33,7 @@
 		<div id="formulaireAjouter" class="inactive">
 			<form>
   				&nbsp;ID<br>
-  				<input id="IDinput" type="number"></input><br>
+  				<input id="IDinput" type="text" disabled="disabled"></input><br>
   				&nbsp;Coordonnee X<br>
   				<input id="Xinput" type="text"></input><br>
   				&nbsp;Coordonnee Y<br>
@@ -49,19 +49,20 @@
   				<input id="ImageButton" type="button" value="Choisir"><br>
   				<div id="ananas">
   					<input id="CancelButton" type="button" value="Cancel">
-  					<input id="SaveButton" type="button" value="Save"><br>
+  					<input id="SaveButton" type="button" value="Save">
+					<input id="DeleteButton" type="hidden" value="Delete">
   				</div>
 			</form>
 		</div>
 
-		<div id="formulaireSupprimer" class="inactive">
+		<!-- <div id="formulaireSupprimer" class="inactive">
 			<form>
   				ID<br>
-  				<input id="IDinput" type="text"></input><br>
+  				<input id="IDinput" type="text" disabled="disabled"></input><br>
   				Coordonnee X<br>
-  				<input id="Xinput" type="number"></input><br>
+  				<input id="Xinput" type="text"></input><br>
   				Coordonnee Y<br>
-  				<input id="Yinput" type="number"></input><br>
+  				<input id="Yinput" type="text"></input><br>
   				Nom<br>
   				<input id="Nominput" type="text"></input><br>
   				Comment<br>
@@ -76,7 +77,18 @@
   					<input id="DeleteButton" type="button" value="Delete"><br>
   				</div>
 			</form>
+		</div> -->
+		
+		<div id="infobox" class="inactive">
+			<p>ID de l'objet : <span id="infoID"></span></br>
+			Coordonnée X : <span id="infoX"></span></br>
+			Coordonnee Y : <span id="infoY"></span></br>
+			Nom : <span id="infoNom"></span></br>
+			Comment : <span id="infoComment"></span></br>
+			Date : <span id="infoDate"></span></br>
+			Image : <span id="infoImage"></span></p>
 		</div>
+		
 		<div id="AffichButton">
     		<button id="coucheButton">Couches</button>
     	</div>
