@@ -79,14 +79,36 @@ input[type=button]{
 	margin:5px;
 }
 #infobox{
-	position:relative;
-	top:5px;
-	left:200px;
-	width:300px;
+	position:absolute;
+	min-width: 300px;
+	top:-50px;
 	text-align: left;
-	margin:5px;
+	padding:5px;
+	margin-left:20px;
 	background-color:yellow;
+	border: 1px solid black;
 }
+#infobox:before {
+  content: "";
+  position: absolute;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid black;
+  top: 30px;
+  left: -40px;
+}
+#infobox:after {
+  content: "";
+  position: absolute;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 20px solid transparent;
+  border-right: 20px solid yellow;
+  top: 30px;
+  left: -38px;
+}
+
 #AffichButton{
 	position: absolute;
 	bottom: 11px;
