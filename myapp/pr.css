@@ -58,6 +58,7 @@ input[type=button]{
 #Commentinput{
 	width:145px;
 	resize:vertical;
+	min-height: 25px;
 	max-height: 65px;
 	border:solid 1px #CBD0CF;
 	background:white;"
@@ -76,7 +77,7 @@ input[type=button]{
 	text-align: left;
 	padding:5px;
 	margin-left:20px;
-	background-color:yellow;
+	background-color:#f4ce42;
 	border: 1px solid black;
 }
 #infobox:before {
@@ -151,9 +152,11 @@ input[type=button]{
 	background:#f4ce42;
 	height:60px;
 	width:100%;
-	line-height: 60px;
+	line-height: 74px;
 	text-align: center;
+	font-family: Jazz LET, fantasy;
 }
+.header img{height:30px;width:auto;}
 .milieu{
 	position:relative;
 	background:#c6c6c6;
@@ -168,10 +171,13 @@ input[type=button]{
 	width:100%;
 }	
 .bas span {
-	line-height: 60px;
+	line-height: 80px;
 	margin-left: 15px;
 	font-size: 0.8em;
+	font-family:"Arial";
+
 }
+.bas img{height:30px;width:auto;opacity:0.6;}
 
 /* Affichage JavaScript */
 
