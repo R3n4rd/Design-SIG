@@ -190,9 +190,7 @@
 				  document.getElementById("Xinput").value = '';
 				  document.getElementById("Yinput").value = '';
 				  document.getElementById("IDinput").style.backgroundColor = '';
-				  if (tempFeature) {
-					  obsLayer.getSource().clear(tempFeature);
-				  }
+				  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
 			  }
 			  else {
 				  mode="add";
@@ -215,6 +213,7 @@
 			  }
 			  // on clean si la infobox est visible
 			  infobox_overlay.setPosition(undefined);
+			  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
 			  // On affiche le boutton save et cache le delete
 			  document.getElementById("SaveButton").type="button";
 			  document.getElementById("DeleteButton").type="hidden";
@@ -238,9 +237,7 @@
 				  document.getElementById("Xinput").value = '';
 				  document.getElementById("Yinput").value = '';
 				  document.getElementById("IDinput").style.backgroundColor = '';
-				  if (tempFeature) {
-					  obsLayer.getSource().clear(tempFeature);
-				  }
+				  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
 				  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
 			  }
 			  else {
@@ -249,9 +246,6 @@
 				  this.style.backgroundColor="yellow";
 				  // Nettoyage avant modification
 				  dc="none";
-				  if (tempFeature) {
-					  obsLayer.getSource().clear(tempFeature);
-				  }
 				  map.addLayer(obsLayer);
 				  document.getElementById("formulaireAjouter").style.visibility="visible";
 				  document.getElementById("addButton").style.color="black";
@@ -321,6 +315,7 @@
 	  // Arrêter un ajout
 	  document.getElementById("CancelButton").onclick=cancelform;
 	  function cancelform() {
+		  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
 		  editedFeature=null;
 		  onsaved(null,'cancelled');
 	  }
@@ -362,20 +357,17 @@
 		  document.getElementById("Yinput").value = '';
 		  document.getElementById("IDinput").style.backgroundColor = '';
 		  document.getElementById("formulaireAjouter").style.visibility="hidden";
-		  // if (mode==="del") {
-			  // remmettre tous les champs en éditables
-			  document.getElementById("Nominput").disabled = false;
-			  document.getElementById("Commentinput").disabled = false;
-			  document.getElementById("Dateinput").disabled = false;
-			  document.getElementById("Xinput").disabled = false;
-			  document.getElementById("Yinput").disabled = false;
-			  document.getElementById("ImageButton").disabled = false;
-		  // }
+		  
+		  // remmettre tous les champs en éditables
+		  document.getElementById("Nominput").disabled = false;
+		  document.getElementById("Commentinput").disabled = false;
+		  document.getElementById("Dateinput").disabled = false;
+		  document.getElementById("Xinput").disabled = false;
+		  document.getElementById("Yinput").disabled = false;
+		  document.getElementById("ImageButton").disabled = false;
 		  mode="none";
 		  dc="none";
-		  if (tempFeature) {
-			  obsLayer.getSource().clear(tempFeature);
-		  }
+		  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
 		  map.removeLayer(obsLayer);
 	  }
 	  
@@ -387,6 +379,8 @@
 	  // ce qui est fait lorsque le bouton "sauver" est cliqué
 	  function savedata(callback) {
 		var request = window.superagent; // superagent attention
+		// contrôle de la date bien saisie
+		if (document.getElementById("Dateinput").value=="") {document.getElementById("Dateinput").value="0001-01-01";}
 		var observation = {
 		"type": "Feature",
 		"properties": {
@@ -437,12 +431,9 @@
 			document.getElementById("IDinput").style.backgroundColor = 'red'; // par exemple
 		}
 		addObservations(); // on réactualise la carte avec le nouveau point
-		if (tempFeature) { // et on oublie pas de nettoyer le point
-			obsLayer.getSource().clear(tempFeature);
-		}
-		if (editedFeature) { // et on oublie pas de nettoyer le point
-			Ouvrages_Layer.getSource().clear(editedFeature);
-		}
+		// On nettoye les points
+		if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
+		if (editedFeature) {Ouvrages_Layer.getSource().clear(editedFeature);}
 	  }
 	  
 	  // Suppression d'un point
@@ -450,6 +441,7 @@
 	  
 	  function deletePoint() {
 		var request = window.superagent; // superagent attention
+		// pour supprimer un point il n'y aurait pas besoin de tout le tralala, juste l'id en fait
 		var observation = {
 		"type": "Feature",
 		"properties": {
@@ -494,7 +486,7 @@
 				  'id': '',
 				  'name': 'name',
 				  'comment': 'comment',
-				  'added': '2018-01-01',
+				  'added': formatDate(Date()),
 				  'image': ''
 			  },
 			  'geometry': {
@@ -502,6 +494,19 @@
 				  'coordinates': e.coordinate
 			  }
 		  };
+		  
+		  // Pour avoir le bon format de date
+		  function formatDate(date) {
+			  var d = new Date(date),
+				  month = '' + (d.getMonth() + 1),
+				  day = '' + d.getDate(),
+				  year = d.getFullYear();
+
+			  if (month.length < 2) month = '0' + month;
+			  if (day.length < 2) day = '0' + day;
+
+			  return [year, month, day].join('-');
+		  }
 		  
 		  if(mode==="add") {
 			  if(dc==="addone") {
@@ -529,9 +534,7 @@
 				  if(layer == Ouvrages_Layer) {
 					  // Nettoyage si on a sélectionné un point du layer
 					  dc="none";
-					  if (tempFeature) {
-						  obsLayer.getSource().clear(tempFeature);
-					  }
+					  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
 					  if (editedFeature) { editedFeature.setStyle(Point_style_Ouvrages);}
 					  document.getElementById("IDinput").value=feature.getProperties().id;
 					  document.getElementById("Nominput").value=feature.getProperties().name;
@@ -653,7 +656,7 @@
 							"id": data[i]._id,
 							"name": data[i].properties.name,
 							"comment": data[i].properties.comment,
-							"added": data[i].properties.added,
+							"added": data[i].properties.added.substring(0,10),
 							"image": data[i].properties.image,
 						},
 						"geometry": {
@@ -808,15 +811,35 @@
 		  if (document.getElementById("box_ouvrages").checked==true) {
 			  // on affiche la couche ouvrages
 			  map.addLayer(Ouvrages_Layer);
-			  // on affiche la couche des observations
-			  // map.addLayer(obsLayer);
+			  // on affiche les boutons
+			  document.getElementById("button").style.visibility="visible";
 		  } else {
 			  // on désaffiche la couche ouvrages
 			  map.removeLayer(Ouvrages_Layer);
-			  // on enlève la couche des observations
-			  // map.removeLayer(obsLayer);
-			  // on clean s'il y a une infobulle
-			  infobox_overlay.setPosition(undefined);
+			  // on enlève les boutons
+			  document.getElementById("button").style.visibility="hidden";
+			  // on clean tout tout tout
+			  mode="none";
+			  this.style.color="white";
+			  this.style.backgroundColor="#4CAF50";
+			  map.removeLayer(obsLayer);
+			  document.getElementById("formulaireAjouter").style.visibility="hidden";
+			  document.getElementById("editButton").style.color="white";
+			  document.getElementById("editButton").style.backgroundColor="#4CAF50";
+			  document.getElementById("delButton").style.color="white";
+			  document.getElementById("delButton").style.backgroundColor="#4CAF50";
+			  // On vide le formulaire éviter les problèmes si on passe en édition
+			  document.getElementById("IDinput").value = '';
+			  document.getElementById("Nominput").value = '';
+			  document.getElementById("Commentinput").value = '';
+			  document.getElementById("Dateinput").value = '';
+			  document.getElementById("Xinput").value = '';
+			  document.getElementById("Yinput").value = '';
+			  document.getElementById("IDinput").style.backgroundColor = '';
+			  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
+			  // On affiche le boutton save et cache le delete
+			  document.getElementById("SaveButton").type="button";
+			  document.getElementById("DeleteButton").type="hidden";
 		  }
 	  }
 	  document.getElementById("carte1").onclick=pays_limits;
