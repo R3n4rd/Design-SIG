@@ -7,6 +7,10 @@ app.use('/capitales_amerique_sud', express.static(__dirname + '/capitales_ameriq
 app.use('/countries', express.static(__dirname + '/countries.geojson'));
 app.use('/css', express.static(__dirname + '/pr.css'));
 
+// Chargement des images
+app.use('/zebu', express.static(__dirname + '/Image/zebu.png'));
+app.use('/epfl', express.static(__dirname + '/Image/Logo_EPFL.png'));
+
 // ajout de superagent
 app.use('/superagent', express.static(__dirname + '/node_modules/superagent/superagent.js'));
 

@@ -171,17 +171,18 @@
 	  // gestion du fonctionnement des boutons add et modify
 	  var mode = "none";
 	  function setMode() {
+		  // console.log(infobox_overlay.getPosition()); // S'il y a une infox, il y a un point sélectionné
 		  if (this.id == "addButton" && mode!="edit" && mode!="del") {
 			  if(mode=="add") {
 				  mode="none";
-				  this.style.color="white";
-				  this.style.backgroundColor="#4CAF50";
+				  // this.style.color="white";
+				  // this.style.backgroundColor="#4CAF50";
 				  map.removeLayer(obsLayer);
 				  document.getElementById("formulaireAjouter").style.visibility="hidden";
-				  document.getElementById("editButton").style.color="white";
+				  /* document.getElementById("editButton").style.color="white";
 				  document.getElementById("editButton").style.backgroundColor="#4CAF50";
 				  document.getElementById("delButton").style.color="white";
-				  document.getElementById("delButton").style.backgroundColor="#4CAF50";
+				  document.getElementById("delButton").style.backgroundColor="#4CAF50"; */
 				  // On vide le formulaire éviter les problèmes si on passe en édition
 				  document.getElementById("IDinput").value = '';
 				  document.getElementById("Nominput").value = '';
@@ -190,12 +191,12 @@
 				  document.getElementById("Xinput").value = '';
 				  document.getElementById("Yinput").value = '';
 				  document.getElementById("IDinput").style.backgroundColor = '';
-				  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
+				  if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
 			  }
 			  else {
 				  mode="add";
-				  this.style.color="red";
-				  this.style.backgroundColor="yellow";
+				  // this.style.color="red";
+				  // this.style.backgroundColor="yellow";
 				  map.addLayer(obsLayer);
 				  document.getElementById("formulaireAjouter").style.visibility="visible";
 				  document.getElementById("editButton").style.color="black";
@@ -219,16 +220,16 @@
 			  document.getElementById("DeleteButton").type="hidden";
 		  }
 		  else if (this.id == "editButton" && mode!="add" && mode!="del") {
-			  if(mode=="edit") {
+			  if(mode=="edit" || infobox_overlay.getPosition()==undefined) {
 				  mode="none";
-				  this.style.color="white";
-				  this.style.backgroundColor="#4CAF50";
+				  this.style.color="black";
+				  this.style.backgroundColor="grey";
 				  map.removeLayer(obsLayer);
 				  document.getElementById("formulaireAjouter").style.visibility="hidden";
 				  document.getElementById("addButton").style.color="white";
 				  document.getElementById("addButton").style.backgroundColor="#4CAF50";
-				  document.getElementById("delButton").style.color="white";
-				  document.getElementById("delButton").style.backgroundColor="#4CAF50";
+				  /* document.getElementById("delButton").style.color="white";
+				  document.getElementById("delButton").style.backgroundColor="#4CAF50";*/
 				  // On vide le formulaire éviter les problèmes si on quitte l'édition
 				  document.getElementById("IDinput").value = '';
 				  document.getElementById("Nominput").value = '';
@@ -237,13 +238,13 @@
 				  document.getElementById("Xinput").value = '';
 				  document.getElementById("Yinput").value = '';
 				  document.getElementById("IDinput").style.backgroundColor = '';
-				  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
+				  if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
 				  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
 			  }
 			  else {
 				  mode="edit";
-				  this.style.color="red";
-				  this.style.backgroundColor="yellow";
+				  // this.style.color="red";
+				  // this.style.backgroundColor="yellow";
 				  // Nettoyage avant modification
 				  dc="none";
 				  map.addLayer(obsLayer);
@@ -260,34 +261,41 @@
 			  document.getElementById("DeleteButton").type="hidden";
 		  }
 		  else if (this.id == "delButton" && mode!="add" && mode!="edit") {
-			  if(mode=="del") {
+			  if(mode=="del" || infobox_overlay.getPosition()==undefined) {
 				  mode="none";
 				  // On affiche le boutton save et cache le delete
 				  document.getElementById("SaveButton").type="button";
 				  document.getElementById("DeleteButton").type="hidden";
-				  this.style.color="white";
-				  this.style.backgroundColor="#4CAF50";
+				  this.style.color="black";
+				  this.style.backgroundColor="grey";
 				  document.getElementById("formulaireAjouter").style.visibility="hidden";
 				  document.getElementById("addButton").style.color="white";
 				  document.getElementById("addButton").style.backgroundColor="#4CAF50";
-				  document.getElementById("editButton").style.color="white";
-				  document.getElementById("editButton").style.backgroundColor="#4CAF50";
+				  /* document.getElementById("editButton").style.color="white";
+				  document.getElementById("editButton").style.backgroundColor="#4CAF50";*/
 				  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
-				  // remmettre tous les champs en éditables
+				  // remettre tous les champs en éditables
 				  document.getElementById("Nominput").disabled = false;
 				  document.getElementById("Commentinput").disabled = false;
 				  document.getElementById("Dateinput").disabled = false;
 				  document.getElementById("Xinput").disabled = false;
 				  document.getElementById("Yinput").disabled = false;
 				  document.getElementById("ImageButton").disabled = false;
+				  // cases dégrisées
+				  document.getElementById("Nominput").style.backgroundColor = "white";
+				  document.getElementById("Commentinput").style.backgroundColor = "white";
+				  document.getElementById("Dateinput").style.backgroundColor = "white";
+				  document.getElementById("Xinput").style.backgroundColor = "white";
+				  document.getElementById("Yinput").style.backgroundColor = "white";
+				  document.getElementById("ImageButton").style.backgroundColor = "white";
 			  }
 			  else {
 				  mode="del";
 				  // On affiche le boutton delete et cache le save
 				  document.getElementById("SaveButton").type="hidden";
 				  document.getElementById("DeleteButton").type="button";
-				  this.style.color="red";
-				  this.style.backgroundColor="yellow";
+				  // this.style.color="red";
+				  // this.style.backgroundColor="yellow";
 				  document.getElementById("formulaireAjouter").style.visibility="visible";
 				  document.getElementById("addButton").style.color="black";
 				  document.getElementById("addButton").style.backgroundColor="grey";
@@ -300,6 +308,13 @@
 				  document.getElementById("Xinput").disabled = true;
 				  document.getElementById("Yinput").disabled = true;
 				  document.getElementById("ImageButton").disabled = true;
+				  // cases grisées
+				  document.getElementById("Nominput").style.backgroundColor = "whitesmoke";
+				  document.getElementById("Commentinput").style.backgroundColor = "whitesmoke";
+				  document.getElementById("Dateinput").style.backgroundColor = "whitesmoke";
+				  document.getElementById("Xinput").style.backgroundColor = "whitesmoke";
+				  document.getElementById("Yinput").style.backgroundColor = "whitesmoke";
+				  document.getElementById("ImageButton").style.backgroundColor = "whitesmoke";
 			  }
 			  // on clean si la infobox est visible
 			  infobox_overlay.setPosition(undefined);
@@ -321,25 +336,40 @@
 	  }
 	  
 	  // Enregistrement d'un ajout de point
-	  document.getElementById("SaveButton").onclick=function() {saveform(onsaved)};
+	  document.getElementById("SaveButton").onclick=checkform;
+	  
+	  // Eviter que des données manquent
+	  function checkform() {
+		  var err_form=0;
+		  // réinitialise la couleur juste avant
+		  document.getElementById("Nominput").style.backgroundColor="white";
+		  document.getElementById("Xinput").style.backgroundColor="white";
+		  document.getElementById("Yinput").style.backgroundColor="white";
+		  var err_color='rgba(255, 0, 0, 0.2)';
+		  if (document.getElementById("Nominput").value=="") {
+			  document.getElementById("Nominput").style.backgroundColor=err_color;
+			  err_form+=1;
+		  }
+		  if (document.getElementById("Xinput").value=="" || $.isNumeric(document.getElementById("Xinput").value)!=true) {
+			  document.getElementById("Xinput").style.backgroundColor=err_color;
+			  err_form+=1;
+		  }
+		  if (document.getElementById("Yinput").value=="" || $.isNumeric(document.getElementById("Yinput").value)!=true) {
+			  document.getElementById("Yinput").style.backgroundColor=err_color;
+			  err_form+=1;
+		  }
+		  if (err_form==0) {
+			  saveform(onsaved);
+		  } else {
+			  if (err_form>1) {console.log("il y a "+err_form+" erreurs !");}
+			  else {console.log("il y a 1 erreur !");}
+		  }
+	  }
 
 	  // ce qui est fait lorsqu'une observation a été stockée sur BD Mongo
 	  function onsaved(arg, msg) {
-		  if(arg==null){
-			  console.log(msg);
-		  }
-		  else {
-			  /* if(mode=='add') { tempFeature._id = arg._id; }
-			  else if (mode='edit') {
-				  editedFeature.setProperties({ "name": document.getElementById("Nominput").value});
-				  editedFeature.setProperties({ "comment": document.getElementById("Commentinput").value});
-				  editedFeature.setProperties({ "added": document.getElementById("Dateinput").value});
-				  editedFeature.setProperties({ "image": null});
-				  var geom = new ol.geom.Point([document.getElementById("Xinput").value, document.getElementById("Yinput").value]);
-				  editedFeature.setGeometry(geom);
-				  editedFeature=null;
-			  } */
-		  }
+		  if(arg==null){console.log(msg);}
+		  
 		  // rétablissement des boutons
 		  document.getElementById("addButton").style.color="white";
 		  document.getElementById("addButton").style.backgroundColor="#4CAF50";
@@ -358,16 +388,31 @@
 		  document.getElementById("IDinput").style.backgroundColor = '';
 		  document.getElementById("formulaireAjouter").style.visibility="hidden";
 		  
-		  // remmettre tous les champs en éditables
+		  // remettre tous les champs en éditables
 		  document.getElementById("Nominput").disabled = false;
 		  document.getElementById("Commentinput").disabled = false;
 		  document.getElementById("Dateinput").disabled = false;
 		  document.getElementById("Xinput").disabled = false;
 		  document.getElementById("Yinput").disabled = false;
 		  document.getElementById("ImageButton").disabled = false;
+		  
+		  // boutons edit et del grisés tant qu'on pas un point sélectionné
+		  document.getElementById("editButton").style.color="black";
+		  document.getElementById("editButton").style.backgroundColor="grey";
+		  document.getElementById("delButton").style.color="black";
+		  document.getElementById("delButton").style.backgroundColor="grey";
+		  
+		  // cases dégrisées / dérougées
+		  document.getElementById("Nominput").style.backgroundColor = "white";
+		  document.getElementById("Commentinput").style.backgroundColor = "white";
+		  document.getElementById("Dateinput").style.backgroundColor = "white";
+		  document.getElementById("Xinput").style.backgroundColor = "white";
+		  document.getElementById("Yinput").style.backgroundColor = "white";
+		  document.getElementById("ImageButton").style.backgroundColor = "white";
+		  
 		  mode="none";
 		  dc="none";
-		  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
+		  if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
 		  map.removeLayer(obsLayer);
 	  }
 	  
@@ -426,13 +471,10 @@
 					}
 					callback('updated');
 				});
-		} else {
-			console.log("Interdit, pas de point");
-			document.getElementById("IDinput").style.backgroundColor = 'red'; // par exemple
 		}
 		addObservations(); // on réactualise la carte avec le nouveau point
 		// On nettoye les points
-		if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
+		if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
 		if (editedFeature) {Ouvrages_Layer.getSource().clear(editedFeature);}
 	  }
 	  
@@ -509,10 +551,10 @@
 		  }
 		  
 		  if(mode==="add") {
-			  if(dc==="addone") {
-				  obsLayer.getSource().clear(dcsave);
-			  }
-
+			  if(dc==="addone") {obsLayer.getSource().clear(dcsave);}
+			  // on clean si on a déjà une tempFeature
+			  if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
+			  
 			  var reader = new ol.format.GeoJSON();
 			  tempFeature = reader.readFeature(tFeature);
 			  obsLayer.getSource().addFeature(tempFeature);
@@ -529,12 +571,13 @@
 		  else if (mode==="edit") {
 			  // pour modifier un objet
 			  var test_true=false;
+			  // on clean si on a déjà une tempFeature
+			  if (tempFeature) {obsLayer.getSource().clear(tempFeature); tempFeature=null;}
 			  // Ouvrages_Layer.setStyle(Point_style_Ouvrages);
 			  this.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
 				  if(layer == Ouvrages_Layer) {
 					  // Nettoyage si on a sélectionné un point du layer
 					  dc="none";
-					  if (tempFeature) {obsLayer.getSource().clear(tempFeature);}
 					  if (editedFeature) { editedFeature.setStyle(Point_style_Ouvrages);}
 					  document.getElementById("IDinput").value=feature.getProperties().id;
 					  document.getElementById("Nominput").value=feature.getProperties().name;
@@ -551,9 +594,7 @@
 			  if (test_true===false && document.getElementById("IDinput").value) {
 				  // console.log("nouveau point");
 				  // c'est un nouveau point
-				  if(dc==="addone") {
-					  obsLayer.getSource().clear(dcsave);
-				  }
+				  if(dc==="addone") {obsLayer.getSource().clear(dcsave);}
 			  
 				  var reader = new ol.format.GeoJSON();
 				  tempFeature = reader.readFeature(tFeature);
@@ -586,6 +627,11 @@
 		  else {
 			  // on clean si le click se fait dans le vide
 			  infobox_overlay.setPosition(undefined);
+			  // on désactive les boutons edit et del
+			  document.getElementById("editButton").style.color="black";
+			  document.getElementById("editButton").style.backgroundColor="grey";
+			  document.getElementById("delButton").style.color="black";
+			  document.getElementById("delButton").style.backgroundColor="grey";
 			  // et on clean le point
 			  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
 			  document.getElementById("IDinput").value = '';
@@ -594,8 +640,10 @@
 			  document.getElementById("Dateinput").value = '';
 			  document.getElementById("Xinput").value = '';
 			  document.getElementById("Yinput").value = '';
+			  // On ne veut que la 1ère feature sélectionnée
+			  var feature_already_selected = false;
 			  this.forEachFeatureAtPixel(e.pixel, function(feature, layer) {
-				  if(layer == Ouvrages_Layer) {
+				  if(layer == Ouvrages_Layer && feature_already_selected == false) {
 					  document.getElementById("infoID").innerHTML=feature.getProperties().id;
 					  document.getElementById("infoNom").innerHTML=feature.getProperties().name;
 					  document.getElementById("infoComment").innerHTML=feature.getProperties().comment;
@@ -616,11 +664,51 @@
 					  document.getElementById("Yinput").value=feature.getProperties().geometry.getCoordinates()[1];
 					  document.getElementById("Dateinput").value=feature.getProperties().added.substring(0,10);
 					  editedFeature=feature;
+					  // On a déjà notre feature
+					  feature_already_selected = true;
+					  // on active les boutons edit et del
+					  document.getElementById("editButton").style.color="white";
+					  document.getElementById("editButton").style.backgroundColor="#4CAF50";
+					  document.getElementById("delButton").style.color="white";
+					  document.getElementById("delButton").style.backgroundColor="#4CAF50";
 					  return;
 				  }
 			  });
 		  }
 	  };
+	  
+	  document.getElementById("Xinput").onchange=formeditpoint;
+	  document.getElementById("Yinput").onchange=formeditpoint;		  
+	  function formeditpoint() {
+		  // console.log("mise à jour du point");
+		  if (document.getElementById("Xinput").value && document.getElementById("Yinput").value) {
+			  // console.log(tempFeature);
+			  if (tempFeature) {
+				  tempFeature.getGeometry().setCoordinates([document.getElementById("Xinput").value, document.getElementById("Yinput").value]);
+			  } else {
+				  // on ajoute une feature s'il n'y en a pas
+				  var tFeature = {
+					  '_id': '',
+					  'type': 'Feature',
+					  'properties':{
+						  'id': '',
+						  'name': 'name',
+						  'comment': 'comment',
+						  'added': '',
+						  'image': ''
+					  },
+					  'geometry': {
+						  'type': 'Point',
+						  'coordinates': [document.getElementById("Xinput").value, document.getElementById("Yinput").value]
+					  }
+				  };				  
+				  var reader = new ol.format.GeoJSON();
+				  tempFeature = reader.readFeature(tFeature);
+				  obsLayer.getSource().addFeature(tempFeature);
+				  tempFeature.setStyle(Point_style);
+			  }
+		  }
+	  }
 	  
 	  // Ajout de la couche ouvrages des observations
 	  Ouvrages_Layer = new ol.layer.Vector({
@@ -813,6 +901,11 @@
 			  map.addLayer(Ouvrages_Layer);
 			  // on affiche les boutons
 			  document.getElementById("button").style.visibility="visible";
+			  // boutons edit et del grisés tant qu'on pas un point sélectionné
+			  document.getElementById("editButton").style.color="black";
+			  document.getElementById("editButton").style.backgroundColor="grey";
+			  document.getElementById("delButton").style.color="black";
+			  document.getElementById("delButton").style.backgroundColor="grey";
 		  } else {
 			  // on désaffiche la couche ouvrages
 			  map.removeLayer(Ouvrages_Layer);
@@ -840,6 +933,8 @@
 			  // On affiche le boutton save et cache le delete
 			  document.getElementById("SaveButton").type="button";
 			  document.getElementById("DeleteButton").type="hidden";
+			  // on clean si la infobox est visible
+			  infobox_overlay.setPosition(undefined);
 		  }
 	  }
 	  document.getElementById("carte1").onclick=pays_limits;
@@ -872,4 +967,33 @@
 	  Pistes_Import.setZIndex(8);
 	  vectorLayer.setZIndex(5);
 	  
+	  // gestion du curseur de la souris
+	  document.onclick=setpointer;
+	  function setpointer() {
+		  if (document.getElementById("editButton").style.backgroundColor==="grey") {
+			  document.getElementById("editButton").style.cursor="default";
+		  } else {
+			  document.getElementById("editButton").style.cursor="pointer";
+		  }
+		  if (document.getElementById("addButton").style.backgroundColor==="grey") {
+			  document.getElementById("addButton").style.cursor="default";
+		  } else {
+			  document.getElementById("addButton").style.cursor="pointer";
+		  }
+		  if (document.getElementById("delButton").style.backgroundColor==="grey") {
+			  document.getElementById("delButton").style.cursor="default";
+		  } else {
+			  document.getElementById("delButton").style.cursor="pointer";
+		  }
+		  document.getElementById("CancelButton").style.cursor="pointer";
+		  document.getElementById("SaveButton").style.cursor="pointer";
+		  document.getElementById("DeleteButton").style.cursor="pointer";
+
+		  // change mouse cursor when over marker
+		  map.on('pointermove', function(e) {
+		  var pixel = map.getEventPixel(e.originalEvent);
+		  var hit = map.hasFeatureAtPixel(pixel);
+		  if (hit && mode!="add") {document.body.style.cursor="pointer";} else {document.body.style.cursor="default";}
+		  });
+	  }
 	});

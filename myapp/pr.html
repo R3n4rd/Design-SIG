@@ -9,10 +9,10 @@
 	<!-- ce truc ajax sert à quelque chose ? -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-	<!--<link rel="stylesheet" href="css" type="text/css">
-	<script src="javascript_test"></script>-->
-	<link rel="stylesheet" href="./pr.css" type="text/css">
-	<script src="./javascript_test.js"></script>
+	<link rel="stylesheet" href="css" type="text/css">
+	<script src="javascript_test"></script>
+	<!--<link rel="stylesheet" href="./pr.css" type="text/css">
+	<script src="./javascript_test.js"></script>-->
 
 	<!-- utilisation de superagent -->
 	<script src="superagent"></script>
@@ -20,7 +20,7 @@
   <body>
   
 	<div class="header" id ="header">
-    <h1><img src="Image/zebu.png" alt="Zebu"/>&nbsp;&nbsp;&nbsp;SIG Burkina Faso&nbsp;&nbsp;&nbsp;<img src="Image/zebu.png" alt="Zebu"/></h1>
+    <h1><img src="zebu" alt="Zebu"/>&nbsp;&nbsp;&nbsp;SIG Burkina Faso&nbsp;&nbsp;&nbsp;<img src="zebu" alt="zebu"/></h1>
 	</div>
 
 	<div class="milieu">
@@ -32,54 +32,30 @@
 			<button id="editButton">Modifier</button>
 			<button id="delButton">Supprimer</button>
 		</div>
-		<div id="formulaireAjouter" class="active">
-			<form>
-  				&nbsp;ID<br>
-  				<input id="IDinput" type="text"   style="width:147px; border:solid 1px #CBD0CF; background:white;" disabled="disabled"></input><br>
-  				&nbsp;Coordonnee X<br>
-  				<input id="Xinput" type="text"    style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
-  				&nbsp;Coordonnee Y<br>
-  				<input id="Yinput" type="text"    style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
-  				&nbsp;Nom<br>
-  				<input id="Nominput" type="text"  style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
-  				&nbsp;Comment<br>
-  				<textarea id="Commentinput" type="text"></textarea><br>
-  				&nbsp;Date<br>
-  				<input id="Dateinput" type="date" style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
-  				&nbsp;Image<br>
-  				<div style="height:55px; border:solid 1px #CBD0CF; margin-bottom:2px; margin-top:1px; background:white;"></div>
-  				<input id="ImageButton" type="button" value="Choisir"><br>
-  				<div id="ananas">
-  					<input id="CancelButton" type="button" value="Cancel">
-  					<input id="SaveButton" type="button" value="Save">
-					  <input id="DeleteButton" type="hidden" value="Delete">
-  				</div>
-			</form>
-		</div>
-
-		<!-- <div id="formulaireSupprimer" class="inactive">
+		<div id="formulaireAjouter" class="inactive">
 			<form>
   				ID<br>
   				<input id="IDinput" type="text" disabled="disabled"></input><br>
   				Coordonnee X<br>
-  				<input id="Xinput" type="text"></input><br>
+  				<input id="Xinput" type="text" ></input><br>
   				Coordonnee Y<br>
-  				<input id="Yinput" type="text"></input><br>
+  				<input id="Yinput" type="text" ></input><br>
   				Nom<br>
-  				<input id="Nominput" type="text"></input><br>
+  				<input id="Nominput" type="text" ></input><br>
   				Comment<br>
-  				<input id="Commentinput" type="text"></input><br>
+  				<textarea id="Commentinput" type="text"></textarea><br>
   				Date<br>
-  				<input id="Dateinput" type="date"></input><br><br>
-  				&nbsp;Image<br>
-  				<div style="min-height:60px; border:solid 1px #CBD0CF; margin:2px; "></div>
+  				<input id="Dateinput" type="date" ></input><br>
+  				Image<br>
+  				<div id="boximage"></div>
   				<input id="ImageButton" type="button" value="Choisir"><br>
   				<div id="ananas">
   					<input id="CancelButton" type="button" value="Cancel">
-  					<input id="DeleteButton" type="button" value="Delete"><br>
+  					<input id="SaveButton" type="button" value="Save">
+					<input id="DeleteButton" type="hidden" value="Delete">
   				</div>
 			</form>
-		</div> -->
+		</div>
 		
 		<div id="infobox" class="inactive">
 			ID de l'objet : <span id="infoID"></span></br>
@@ -100,8 +76,6 @@
 				<input type="checkbox" name="choix2" value="2" id="box_pistes"> Pistes
 				<input type="checkbox" name="choix3" value="3" id="box_ouvrages"> Ouvrages
 			</form>
-    		<!--<button id="Routes">Routes</button>
-    		<button id="Ouvrages">Ouvrages</button>-->
     	</div>
 
     	<div id="FondCarte">
@@ -113,8 +87,7 @@
 	</div>
 
 	<div class="bas">
-    	<span><img src="Image/Logo_EPFL.png" alt="Zebu"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Janvier 2018</span>
-    	<!--<button type ="button" onclick="$('#menu').toggleClass('inactive'); $(this).toggleClass('active');">Afficher le menu</button>-->
+    	<span><img src="epfl" alt="epfl"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Janvier 2018</span>
 	</div>
 
   </body>
