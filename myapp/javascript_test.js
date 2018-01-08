@@ -279,6 +279,13 @@
 				  document.getElementById("editButton").style.color="white";
 				  document.getElementById("editButton").style.backgroundColor="#4CAF50";
 				  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
+				  // remmettre tous les champs en éditables
+				  document.getElementById("Nominput").disabled = false;
+				  document.getElementById("Commentinput").disabled = false;
+				  document.getElementById("Dateinput").disabled = false;
+				  document.getElementById("Xinput").disabled = false;
+				  document.getElementById("Yinput").disabled = false;
+				  document.getElementById("ImageButton").disabled = false;
 			  }
 			  else {
 				  mode="del";
@@ -292,6 +299,13 @@
 				  document.getElementById("addButton").style.backgroundColor="grey";
 				  document.getElementById("editButton").style.color="black";
 				  document.getElementById("editButton").style.backgroundColor="grey";
+				  // mettre tous les champs en disabled
+				  document.getElementById("Nominput").disabled = true;
+				  document.getElementById("Commentinput").disabled = true;
+				  document.getElementById("Dateinput").disabled = true;
+				  document.getElementById("Xinput").disabled = true;
+				  document.getElementById("Yinput").disabled = true;
+				  document.getElementById("ImageButton").disabled = true;
 			  }
 			  // on clean si la infobox est visible
 			  infobox_overlay.setPosition(undefined);
@@ -348,6 +362,15 @@
 		  document.getElementById("Yinput").value = '';
 		  document.getElementById("IDinput").style.backgroundColor = '';
 		  document.getElementById("formulaireAjouter").style.visibility="hidden";
+		  // if (mode==="del") {
+			  // remmettre tous les champs en éditables
+			  document.getElementById("Nominput").disabled = false;
+			  document.getElementById("Commentinput").disabled = false;
+			  document.getElementById("Dateinput").disabled = false;
+			  document.getElementById("Xinput").disabled = false;
+			  document.getElementById("Yinput").disabled = false;
+			  document.getElementById("ImageButton").disabled = false;
+		  // }
 		  mode="none";
 		  dc="none";
 		  if (tempFeature) {
@@ -479,7 +502,7 @@
 				  'coordinates': e.coordinate
 			  }
 		  };
-		  // Ce serait bien de mettre en rouge l'objet sélectionné lorsqu'on demande les infos
+		  
 		  if(mode==="add") {
 			  if(dc==="addone") {
 				  obsLayer.getSource().clear(dcsave);
@@ -785,9 +808,13 @@
 		  if (document.getElementById("box_ouvrages").checked==true) {
 			  // on affiche la couche ouvrages
 			  map.addLayer(Ouvrages_Layer);
+			  // on affiche la couche des observations
+			  // map.addLayer(obsLayer);
 		  } else {
 			  // on désaffiche la couche ouvrages
 			  map.removeLayer(Ouvrages_Layer);
+			  // on enlève la couche des observations
+			  // map.removeLayer(obsLayer);
 			  // on clean s'il y a une infobulle
 			  infobox_overlay.setPosition(undefined);
 		  }
