@@ -3,15 +3,17 @@
   <head>
     <title>Vector Layer</title>
     <link rel="stylesheet" href="https://openlayers.org/en/v4.4.2/css/ol.css" type="text/css">
-    <link rel="stylesheet" href="css" type="text/css">
-    <!--<link rel="stylesheet" href="./pr.css" type="text/css">-->
 	<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
     <script src="https://openlayers.org/en/v4.4.2/build/ol.js"></script>
 	<!-- ce truc ajax sert à quelque chose ? -->
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<!--<script src="./javascript_test.js"></script>-->
-	<script src="javascript_test"></script>
+
+  <!--<link rel="stylesheet" href="css" type="text/css">-->
+  <!--<script src="javascript_test"></script>-->
+  <link rel="stylesheet" href="./pr.css" type="text/css">
+	<script src="./javascript_test.js"></script>
+
 	<!-- utilisation de superagent -->
 	<script src="superagent"></script>
   </head>
@@ -33,24 +35,24 @@
 		<div id="formulaireAjouter" class="inactive">
 			<form>
   				&nbsp;ID<br>
-  				<input id="IDinput" type="text" disabled="disabled"></input><br>
+  				<input id="IDinput" type="text"   style="width:147px; border:solid 1px #CBD0CF; background:white;" disabled="disabled"></input><br>
   				&nbsp;Coordonnee X<br>
-  				<input id="Xinput" type="text"></input><br>
+  				<input id="Xinput" type="text"    style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
   				&nbsp;Coordonnee Y<br>
-  				<input id="Yinput" type="text"></input><br>
+  				<input id="Yinput" type="text"    style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
   				&nbsp;Nom<br>
-  				<input id="Nominput" type="text"></input><br>
+  				<input id="Nominput" type="text"  style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
   				&nbsp;Comment<br>
   				<textarea id="Commentinput" type="text"></textarea><br>
   				&nbsp;Date<br>
-  				<input id="Dateinput" type="date"></input><br>
+  				<input id="Dateinput" type="date" style="width:147px; border:solid 1px #CBD0CF; background:white;"></input><br>
   				&nbsp;Image<br>
-  				<div style="min-height:60px; border:solid 1px #CBD0CF; margin:2px; "></div>
+  				<div style="height:55px; border:solid 1px #CBD0CF; margin-bottom:2px; margin-top:1px; background:white;"></div>
   				<input id="ImageButton" type="button" value="Choisir"><br>
   				<div id="ananas">
   					<input id="CancelButton" type="button" value="Cancel">
   					<input id="SaveButton" type="button" value="Save">
-					<input id="DeleteButton" type="hidden" value="Delete">
+					  <input id="DeleteButton" type="hidden" value="Delete">
   				</div>
 			</form>
 		</div>
