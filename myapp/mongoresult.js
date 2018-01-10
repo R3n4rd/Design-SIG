@@ -4,6 +4,11 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var grid = require('gridfs-stream');
+var fs = require('fs');
+var multer = require('multer');
+var upload = multer({dest: 'uploads/'});
+
 var bodyParser = require('body-parser')
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
@@ -18,25 +23,56 @@ mongoose.connect('mongodb://localhost:27017/Burkina', {useMongoClient: true}, fu
 });
 
 // Mongoose general Schema and model definition
-var JsonSchema = new Schema ({
-	name: String,
-	type: Schema.Types.Mixed,
-});
-var Json = mongoose.model('JString', JsonSchema, 'Routes_Pistes_Layer');
-
-// GET home page
-/* router.get('/', function(req, res, next) {
-	res.render('/pr.html', {title: 'Accueil'});
-}); */ 
-
-// GET GeoJSON data
-// Le nom cest routesLL
-router.get('/jsonmap/:name', function(req, res) {
-	if (req.params.name) {
-		Json.findOne({ name: req.params.name }, {}, function(err, docs) {
-			res.json(docs);
-		});
+var JsonSchemaRoutes = new Schema ({
+	type: String,
+	properties: {
+		Route: String,
+		origine: String,
+		Fin: String,
+		Code: String,
+		Longueur: Number,
+		Classe: String,
+		Type: String,
+	},
+	geometry: {
+		$type: String,
+		coordinates: [[[Number]]]
 	}
+});
+var JsonSchemaPistes = new Schema ({
+	type: String,
+	properties: {
+		Pistes: String,
+		origine: String,
+		Fin: String,
+		Longueur: Number,
+		Type: String,
+		Etat: String,
+		AnnéeCons: String,
+		BureuEtud: String,
+		Entreprise: String,
+		Observation: String
+	},
+	geometry: {
+		$type: String,
+		coordinates: [[Number]]
+	}
+});
+var JsonRoutes = mongoose.model('JStringRoutes', JsonSchemaRoutes, 'Routes');
+var JsonPistes = mongoose.model('JStringPistes', JsonSchemaPistes, 'Pistes');
+
+// recherche des objets Routes
+router.get('/jsonmap/routesLL', function(req,res) {
+	JsonRoutes.find({}, function(err,docs) {
+		res.send(docs);
+	});
+});
+
+// recherche des objets Pistes
+router.get('/jsonmap/pistesLL', function(req,res) {
+	JsonPistes.find({}, function(err,docs) {
+		res.send(docs);
+	});
 });
 
 // Traitement de l'observation
@@ -55,7 +91,7 @@ var obs = new Schema({
 		coordinates: Array,
 	}
 });
-var observation = mongoose.model('observation', obs, 'Observations');
+var observation = mongoose.model('Observation', obs, 'Observations');
 
 router.post('/form', function(req,res) {
 	// console.log(req.body);
@@ -114,6 +150,62 @@ router.put('/form/delete', function(req,res) {
 		} else {
 			res.send("OK");
 		}
+	});
+});
+
+// gestion des images
+grid.mongo = mongoose.mongo;
+var conn = mongoose.createConnection('mongodb://localhost:27017/Burkina');
+conn.once('open', function () {
+	var gfs = new grid(conn.db);
+
+	router.post('/photos/ouvrages', upload.single('fileToUpload'), function(req, res, next) {
+		if (!req.file) {
+			return next(new ServerError('Pas trouvé le fichier'),
+				{context: 'files route', status:403});
+		}
+		var writestream = gfs.createWriteStream({
+			mode: 'w', // w par défaut
+			content_type: req.file.mimetype,
+			filename: req.file.originalname,
+		});
+		fs.createReadStream(req.file.path).pipe(writestream);
+		writestream.on('close', function(newFile) {
+			return res.status(200).json({ _id:newFile._id});
+			// return res.status(200).json({ _id:req.file.filename});
+		});
+	});
+
+	router.get('/photos/ouvrages/:fileId', function(req, res, next) {
+		// console.log(req.params.fileId);
+		if (!req.params || !req.params.fileId) {
+			return next(new ServerError('Pas trouvé le fichier'),
+				{context: 'files route', status:403});
+		}
+		var id = gfs.tryParseObjectId(req.params.fileId);
+		if(!id) {
+			return next(new ServerError('Pas trouvé le fichier'),
+				{context: 'files route', status:403});
+		}
+		gfs.files.find({_id: id}).toArray(function (err, files) {
+			if (err || !files || files.length!==1) {
+			return next(new ServerError('Peux pas lire les infos du fichier'+req.params.fileId+' error: '+err),
+				{context: 'files route', status:403});
+			}
+			var fileInfo = files[0];
+			var readstream = gfs.createReadStream({
+				_id: req.params.fileId
+			});
+			readstream.on('error', function(err) {
+				return next(new ServerError('Peux pas lire le fichier'+req.params.fileId+' error: '+err),
+					{context: 'files route', status:403});
+			});
+			if (fileInfo.contentType) {
+				res.setHeader('Content-type', fileInfo.contentType);
+			}
+			res.setHeader('Content-disposition', 'filename='+fileInfo.filename);
+			return readstream.pipe(res);
+		});
 	});
 });
 
