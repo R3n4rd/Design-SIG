@@ -1056,4 +1056,13 @@
 			  if (test_layer==false) {document.body.style.cursor="default";}
 		  });
 	  }
+	  
+	  // gestion d'une actualisation
+	  document.getElementById("Refresh").onclick=refresh_ouvrages;
+	  function refresh_ouvrages() {
+		  Ouvrages_Layer.getSource().clear(); // on clean avant tout
+		  addObservations(); // on profite pour réactualiser les points
+		  infobox_overlay.setPosition(undefined); // pour éviter les points noirs non sélectionnés
+		  onsaved(null,'Actualisation forcée');
+	  }
 	});

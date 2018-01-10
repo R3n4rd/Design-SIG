@@ -9,6 +9,7 @@ app.use('/css', express.static(__dirname + '/pr.css'));
 // Chargement des images
 app.use('/zebu', express.static(__dirname + '/Image/zebu.png'));
 app.use('/epfl', express.static(__dirname + '/Image/Logo_EPFL.png'));
+app.use('/refresh', express.static(__dirname + '/Image/resfresh-icon.png'));
 
 // ajout de superagent
 app.use('/superagent', express.static(__dirname + '/node_modules/superagent/superagent.js'));

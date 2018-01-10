@@ -14,6 +14,7 @@ button {
     font-size: 16px;
 	cursor: pointer;
 	position: relative;
+	border-radius: 10px;
 }
 label{
 	display:block;
@@ -107,6 +108,7 @@ input[type=button]{
 	background-color: #f4ce42;
 	border: 0px solid grey; /* border: 1px solid grey; */
 	font-size: 14px;
+	border-radius: 10px;
 }
 #infobox:before {
   content: "";
@@ -139,6 +141,7 @@ input[type=button]{
 	// padding: 15px 32px;
 	padding: 5px;
 	font-size: 16px;
+	border-radius: 10px;
 }
 #ListeCouches input {
 	cursor:pointer;
@@ -162,6 +165,7 @@ input[type=button]{
     display: inline-block;
     font-size: 16px;
     font-family:"Arial";
+	border-radius: 10px;
 }
 #FondCarte input {
 	cursor:pointer;
@@ -175,6 +179,23 @@ input[type=button]{
 	bottom: 46px;
 	cursor:pointer;
 }
+
+#Refresh {
+    position: absolute;
+	background: #4CAF50; /* Green */
+	left: 11px;
+	bottom: 78px;
+	margin: 2px;
+	margin-left: 0px;
+	padding: 4px;
+	padding-left: 6px;
+	padding-right: 6px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+#Refresh img {width: 20px;}
+#Refresh:hover {background: white}
+#Refresh:hover img {transform: rotate(45deg);}
 
 /* Définition des class (plusieur) */
 
