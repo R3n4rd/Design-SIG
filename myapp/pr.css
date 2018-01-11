@@ -74,6 +74,7 @@ input[type=button]{
 	margin-bottom:2px;
 	margin-top:1px;
 	text-align: center;
+	font-size:12px;
 }
 #ImageButton {
 	visibility: hidden;
@@ -133,9 +134,9 @@ input[type=button]{
 #ListeCouches{
 	position: absolute;
 	// bottom: 11px;
-	bottom: 46px;
-	left:145px;
-	height:18px;
+	bottom: 43px;
+	left:125px;
+	height:20px;
 	background: whitesmoke;
 	margin: 2px;
 	// padding: 15px 32px;
@@ -145,14 +146,13 @@ input[type=button]{
 }
 #ListeCouches input {
 	cursor:pointer;
-	width: 15px; height: 15px;
 	vertical-align: middle;
 }
 #FondCarte, #AffichButton{
 	position:absolute;
 	background:#4CAF50; /* Green */
-	height:auto;
-	width:332px;
+	height:20px;
+	width:auto;
 	// right:10px;
 	left : 10px;
 	bottom:11px;
@@ -166,25 +166,26 @@ input[type=button]{
     font-size: 16px;
     font-family:"Arial";
 	border-radius: 10px;
+	padding-left:12px;
+	padding-right:12px;
+	vertical-align: middle;
 }
 #FondCarte input {
 	cursor:pointer;
-	width: 15px; height: 15px;
+	vertical-align: middle;
 }
 #carte1 {margin-left:30px;}
-#carte2 {margin-left:20px;}
 #AffichButton{
-	width:120px;
-	// bottom: 11px;
-	bottom: 46px;
+	bottom:43px;
 	cursor:pointer;
+	vertical-align: middle;
 }
 
 #Refresh {
     position: absolute;
 	background: #4CAF50; /* Green */
 	left: 11px;
-	bottom: 78px;
+	bottom: 75px;
 	margin: 2px;
 	margin-left: 0px;
 	padding: 4px;

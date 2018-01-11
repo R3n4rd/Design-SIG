@@ -9,10 +9,22 @@
 	  function onFileSelected(event) {
 		  // Il faudrait un regex pour controller le nom et l'extension
 		  var selectedFile = event.target.files[0];
+		  document.getElementById("boximage").innerHTML = "";
+		  document.getElementById("boximage").style.backgroundColor="white";
 		  if (selectedFile) {
 			  var reader = new FileReader();
 			  var imgtitle = selectedFile.name;
 			  reader.onload = function(event) {
+				  if (document.getElementById("ImageButton").files.length > 0) {
+					  // On check l'extension
+					  var file_uploaded_name = document.getElementById("ImageButton").files[0].name;
+					  var allowed_ext = (/\.(gif|jpg|jpeg|tiff|png)$/i);
+					  if (!allowed_ext.test(file_uploaded_name)) {
+						  document.getElementById("boximage").style.backgroundColor='rgba(255, 0, 0, 0.2)';
+						  document.getElementById("boximage").innerHTML="pas le bon format <br>.gif . jpg . jpeg .tiff .png<br> autorisés";
+						  document.getElementById("ImageButton").value="";
+					  }
+				  }
 				  var imgwidth; var imgheight;
 				  var maxwidth = 147; var maxheight = 55;
 				  var imgsrc = event.target.result;
@@ -160,6 +172,30 @@
         source: new ol.source.Vector({
           // url: 'https://openlayers.org/en/v4.6.4/examples/data/geojson/countries.geojson',
           url: '/countries',
+		  format: new ol.format.GeoJSON()
+        }),
+        style: function(feature) {
+          style.getText().setText(feature.get('name'));
+          return style;
+        }
+      });
+	  
+	  // Couche régions 4
+	  var admin4 = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          url: '/admin4',
+		  format: new ol.format.GeoJSON()
+        }),
+        style: function(feature) {
+          style.getText().setText(feature.get('name'));
+          return style;
+        }
+      });
+	  
+	  // Couche régions 5
+	  var admin5 = new ol.layer.Vector({
+        source: new ol.source.Vector({
+          url: '/admin5',
 		  format: new ol.format.GeoJSON()
         }),
         style: function(feature) {
@@ -415,7 +451,8 @@
 		  document.getElementById("Xinput").value = '';
 		  document.getElementById("Yinput").value = '';
 		  document.getElementById("IDinput").style.backgroundColor = '';
-		  document.getElementById("boximage").innerHTML="";
+		  document.getElementById("boximage").innerHTML = "";
+		  document.getElementById("boximage").style.backgroundColor="white";
 		  document.getElementById("ImageButton").value="";
 		  document.getElementById("formulaireAjouter").style.visibility="hidden";
 		  
@@ -440,6 +477,9 @@
 		  document.getElementById("Xinput").style.backgroundColor = "white";
 		  document.getElementById("Yinput").style.backgroundColor = "white";
 		  document.getElementById("ImageButtonLabel").style.backgroundColor = "white";
+		  
+		  // On supprime l'infobox s'il est là
+		  infobox_overlay.setPosition(undefined);
 		  
 		  mode="none";
 		  dc="none";
@@ -474,6 +514,7 @@
 		if (document.getElementById("Dateinput").value=="") {document.getElementById("Dateinput").value="0001-01-01";}
 		if (!_id && document.getElementById("img_id")) {_id=document.getElementById("img_id").title;}
 		else if (!_id && !document.getElementById("img_id")) {_id=null;}
+		if (document.getElementById("boximage").innerHTML=="" || document.getElementById("boximage").innerHTML=="pas le bon format <br>.gif . jpg . jpeg .tiff .png<br> autorisés") {_id=null;}
 		var observation = {
 		"type": "Feature",
 		"properties": {
@@ -969,46 +1010,31 @@
 			  map.removeLayer(Ouvrages_Layer);
 			  // on enlève les boutons
 			  document.getElementById("button").style.visibility="hidden";
-			  // on clean tout tout tout
-			  mode="none";
-			  this.style.color="white";
-			  this.style.backgroundColor="#4CAF50";
-			  map.removeLayer(obsLayer);
-			  document.getElementById("formulaireAjouter").style.visibility="hidden";
-			  document.getElementById("editButton").style.color="white";
-			  document.getElementById("editButton").style.backgroundColor="#4CAF50";
-			  document.getElementById("delButton").style.color="white";
-			  document.getElementById("delButton").style.backgroundColor="#4CAF50";
-			  // On vide le formulaire éviter les problèmes si on passe en édition
-			  document.getElementById("IDinput").value = '';
-			  document.getElementById("Nominput").value = '';
-			  document.getElementById("Commentinput").value = '';
-			  document.getElementById("Dateinput").value = '';
-			  document.getElementById("Xinput").value = '';
-			  document.getElementById("Yinput").value = '';
-			  document.getElementById("IDinput").style.backgroundColor = '';
-			  if (editedFeature) {editedFeature.setStyle(Point_style_Ouvrages);}
-			  // On affiche le boutton save et cache le delete
-			  document.getElementById("SaveButton").type="button";
-			  document.getElementById("DeleteButton").type="hidden";
-			  // on clean si la infobox est visible
-			  infobox_overlay.setPosition(undefined);
+			  // Puis on remet tout en état
+			  cancelform();
 		  }
 	  }
-	  document.getElementById("carte1").onclick=pays_limits;
+	  document.getElementById("carte2").onclick=pays_limits;
 	  function pays_limits() {
-		  if (document.getElementById("carte1").checked==true) {
+		  if (document.getElementById("carte2").checked==true) {
 			  // on affiche la couche des pays
 			  map.addLayer(vectorLayer);
+			  if (document.getElementById("carte3").checked==true) {
+				  map.removeLayer(admin4);
+				  document.getElementById("carte3").checked=false;
+			  }
+			  if (document.getElementById("carte4").checked==true) {
+				  map.removeLayer(admin5);
+				  document.getElementById("carte4").checked=false;
+			  }
 		  } else {
 			  // on désaffiche la couche des pays
 			  map.removeLayer(vectorLayer);
-			  // document.getElementById("carte1").checked==false;
 		  }
 	  }
-	  document.getElementById("carte2").onclick=satellite;
+	  document.getElementById("carte1").onclick=satellite;
 	  function satellite() {
-		  if (document.getElementById("carte2").checked==true) {
+		  if (document.getElementById("carte1").checked==true) {
 			  // on affiche la map satellite
 			  map.addLayer(bing);
 			  map.removeLayer(raster);
@@ -1018,12 +1044,50 @@
 			  map.removeLayer(bing);
 		  }
 	  }
+	  document.getElementById("carte3").onclick=affiche_admin4;
+	  function affiche_admin4() {
+		  if (document.getElementById("carte3").checked==true) {
+			  // on affiche la couche des pays
+			  map.addLayer(admin4);
+			  if (document.getElementById("carte4").checked==true) {
+				  map.removeLayer(admin5);
+				  document.getElementById("carte4").checked=false;
+			  }
+			  if (document.getElementById("carte2").checked==true) {
+				  map.removeLayer(vectorLayer);
+				  document.getElementById("carte2").checked=false;
+			  }
+		  } else {
+			  // on désaffiche la couche des pays
+			  map.removeLayer(admin4);
+		  }
+	  }
+	  document.getElementById("carte4").onclick=affiche_admin5;
+	  function affiche_admin5() {
+		  if (document.getElementById("carte4").checked==true) {
+			  // on affiche la couche des pays
+			  map.addLayer(admin5);
+			  if (document.getElementById("carte3").checked==true) {
+				  map.removeLayer(admin4);
+				  document.getElementById("carte3").checked=false;
+			  }
+			  if (document.getElementById("carte2").checked==true) {
+				  map.removeLayer(vectorLayer);
+				  document.getElementById("carte2").checked=false;
+			  }
+		  } else {
+			  // on désaffiche la couche des pays
+			  map.removeLayer(admin5);
+		  }
+	  }
 	  // gestion de l'ordre de superposition des couches
 	  obsLayer.setZIndex(20);
 	  Ouvrages_Layer.setZIndex(15)
 	  Routes_Import.setZIndex(9);
 	  Pistes_Import.setZIndex(8);
 	  vectorLayer.setZIndex(5);
+	  admin4.setZIndex(6);
+	  admin5.setZIndex(7);
 	  
 	  // gestion du curseur de la souris
 	  document.onclick=setpointer;
