@@ -473,6 +473,7 @@
 		// contrôle de la date bien saisie
 		if (document.getElementById("Dateinput").value=="") {document.getElementById("Dateinput").value="0001-01-01";}
 		if (!_id && document.getElementById("img_id")) {_id=document.getElementById("img_id").title;}
+		else if (!_id && !document.getElementById("img_id")) {_id=null;}
 		var observation = {
 		"type": "Feature",
 		"properties": {
