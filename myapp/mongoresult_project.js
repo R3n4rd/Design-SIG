@@ -127,20 +127,6 @@ router.put('/form/update', function(req,res) {
 	});
 });
 
-router.put('/form/update', function(req,res) {
-	// console.log(req.body);
-	var id=req.body.properties.id, body=req.body;
-	observation.findByIdAndUpdate(id, body, function(err, docs) {
-		// console.log(err.message);
-		// console.log(id);
-		if (err) {
-			res.send(err.message);
-		} else {
-			res.send("OK");
-		}
-	});
-});
-
 router.put('/form/delete', function(req,res) {
 	var id=req.body.properties.id, body=req.body;
 	observation.findByIdAndRemove(id, function(err, docs) {

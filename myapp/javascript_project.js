@@ -661,7 +661,7 @@
 			  dc="addone";
 			  dcsave=tempFeature;
 		  }
-		  else if (mode==="edit") {
+		  else if (mode==="edit") {			  
 			  // pour modifier un objet
 			  var test_true=false;
 			  // on clean si on a déjà une tempFeature
@@ -678,6 +678,31 @@
 					  document.getElementById("Xinput").value=feature.getProperties().geometry.getCoordinates()[0];
 					  document.getElementById("Yinput").value=feature.getProperties().geometry.getCoordinates()[1];
 					  document.getElementById("Dateinput").value=feature.getProperties().added.substring(0,10);
+					  // Attention mettre à jour l'image aussi !
+					  if (feature.getProperties().image != null) {
+						  var imgwidthedit; var imgheightedit;
+						  var maxwidthedit = 147; var maxheightedit = 55;
+						  var imgsrc = "photos/ouvrages/"+feature.getProperties().image;
+						  var imageedit = new Image();
+						  imageedit.src = imgsrc;
+						  imageedit.onload = function () {
+							  var sourcewidth = this.width;
+							  var sourceheight = this.height;
+							  if (sourcewidth>maxwidthedit) {
+								  imgheightedit=sourceheight/(sourcewidth/maxwidthedit); imgwidthedit=maxwidthedit;
+								  if (imgheightedit>maxheightedit) {
+									  imgwidthedit=imgwidthedit/(imgheightedit/maxheightedit); imgheightedit=maxheightedit;
+								  }
+							  } else if (sourceheight>maxheightedit) {
+								  imgwidthedit=sourcewidth/(sourceheight/maxheightedit); imgheightedit=maxheightedit;
+								  if (imgwidthedit>maxwidthedit) {
+									  imgheighthedit=imgheightedit/(imgwidthedit/maxwidthedit); imgwidthedit=maxwidthedit;
+								  }
+							  }
+							  // Affichge de l'image sur le formulaire
+							  document.getElementById("boximage").innerHTML = "<img id='img_id' src='"+imgsrc+"' title='"+feature.getProperties().image+"' width='"+imgwidthedit+"' height='"+imgheightedit+"'>";
+						  }
+					  } else {document.getElementById("boximage").innerHTML = "Pas d'image !";}
 					  editedFeature=feature;
 					  test_true=true;
 					  editedFeature.setStyle(Point_modsup);
@@ -711,6 +736,32 @@
 					  document.getElementById("Xinput").value=feature.getProperties().geometry.getCoordinates()[0];
 					  document.getElementById("Yinput").value=feature.getProperties().geometry.getCoordinates()[1];
 					  document.getElementById("Dateinput").value=feature.getProperties().added.substring(0,10);
+					  // Attention mettre à jour l'image aussi !
+					  // gestion image dans le boximage du formulaire
+					  if (feature.getProperties().image != null) {
+						  var imgwidthdel; var imgheightdel;
+						  var maxwidthdel = 147; var maxheightdel = 55;
+						  var imgsrc = "photos/ouvrages/"+feature.getProperties().image;
+						  var imagedel = new Image();
+						  imagedel.src = imgsrc;
+						  imagedel.onload = function () {
+							  var sourcewidth = this.width;
+							  var sourceheight = this.height;
+							  if (sourcewidth>maxwidthdel) {
+								  imgheightdel=sourceheight/(sourcewidth/maxwidthdel); imgwidthdel=maxwidthdel;
+								  if (imgheightdel>maxheightdel) {
+									  imgwidthdel=imgwidthdel/(imgheightdel/maxheightdel); imgheightdel=maxheightdel;
+								  }
+							  } else if (sourceheight>maxheightdel) {
+								  imgwidthdel=sourcewidth/(sourceheight/maxheightdel); imgheightdel=maxheightdel;
+								  if (imgwidthdel>maxwidthdel) {
+									  imgheighthdel=imgheightdel/(imgwidthdel/maxwidthdel); imgwidthdel=maxwidthdel;
+								  }
+							  }
+							  // Affichge de l'image sur le formulaire
+							  document.getElementById("boximage").innerHTML = "<img id='img_id' src='"+imgsrc+"' title='"+feature.getProperties().image+"' width='"+imgwidthdel+"' height='"+imgheightdel+"'>";
+						  }
+					  } else {document.getElementById("boximage").innerHTML = "Pas d'image !";}
 					  editedFeature=feature;
 					  editedFeature.setStyle(Point_modsup);
 					  return;
@@ -809,7 +860,7 @@
 							  // Affichge de l'image sur le formulaire
 							  document.getElementById("boximage").innerHTML = "<img id='img_id' src='"+imgsrc+"' title='"+feature.getProperties().image+"' width='"+imgwidth2+"' height='"+imgheight2+"'>";
 						  }
-					  } else {document.getElementById("boximage").innerHTML = "";}
+					  } else {document.getElementById("boximage").innerHTML = "Pas d'image !";}
 					  editedFeature=feature;
 					  // On a déjà notre feature
 					  feature_already_selected = true;
